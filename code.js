@@ -339,11 +339,12 @@ arrFin.sort(function(a, b) {
 
 // Stringify
 arrFin.forEach((element, index) => {
-    arrFin[index].kanji_ids         = element.kanji_ids.join(" ").replace(/ 0/g, "");
     arrFin[index].sources           = element.sources.join(" ");
-    arrFin[index].jmdict_details    = JSON.stringify(element.jmdict_details);
+    arrFin[index].jmdict_details    = JSON.stringify(element.jmdict_details).replace(/\t/g, "");
     arrFin[index].jmdict_freq       = element.jmdict_freq ? element.jmdict_freq.join(" ") : "";
-    arrFin[index].tags              = arrFin[index].sources + " " + arrFin[index].jmdict_freq;
+    arrFin[index].kanji_ids         = element.kanji_ids.join(" ").replace(/ 0/g, "");
+    arrFin[index].jitenon_details   = arrFin[index].jitenon_details ? arrFin[index].jitenon_details.replace(/\n/g, "").replace(/\t/g, "") : "";
+    arrFin[index].tags              = arrFin[index].sources + " " + arrFin[index].jmdict_freq + (element.word.length == 1 ? " kanji" : "");
 });
 
 fs.writeFileSync('./dist/fin.json', JSON.stringify(arrFin, null, 4), 'utf8'); 
