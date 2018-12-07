@@ -14,8 +14,8 @@ var switcher = {
     test_data: false,
     jmdict_details: true,
     jmdict_non_freq: false,
-    jitenon: true,
-    audio: true
+    jitenon: false,
+    audio: false
 };
 
 // Add raw from JMdict Freq
