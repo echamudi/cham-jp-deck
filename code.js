@@ -11,10 +11,9 @@ data.wk_audio = require("./source/_wkaudio.json")[0];
 data.core10k_audio = require("./source/_core10kaudio.json")[0];
 
 var switcher = {
-    test_data: false,
+    test_data: true,
     jmdict_details: true,
     jmdict_non_freq: false,
-    jitenon: false,
     audio: false
 };
 
@@ -225,32 +224,6 @@ if (switcher.jmdict_details) {
     });
 }
 
-// Jitenon
-
-if (switcher.jitenon) {
-    // Add jitenon urls
-
-    Object.keys(fin).forEach(function(key) {
-        if(data.kanji_jitenon_url[key]) {
-            fin[key].jitenon_url = data.kanji_jitenon_url[key].replace("..", "");
-        } else {
-            fin[key].jitenon_url = "";
-        }
-    });
-
-    // Add jitenon content
-    process.stdout.write("Adding jitenon content...\n"); 
-    Object.keys(fin).forEach(function(key) {
-        if(fin[key].jitenon_url) {
-            var $ = cheerio.load(fs.readFileSync("./source/kanji.jitenon.jp" + fin[key].jitenon_url, 'utf8'));
-            fin[key].jitenon_details = $("#kanjiright").html();
-        } else {
-            fin[key].jitenon_details = "";
-        }
-    });
-    process.stdout.write("Done adding jitenon content\n"); 
-}
-
 // Add audios
 // Put false to skip audio 
 
@@ -343,8 +316,26 @@ arrFin.forEach((element, index) => {
     arrFin[index].jmdict_details    = JSON.stringify(element.jmdict_details).replace(/\t/g, "");
     arrFin[index].jmdict_freq       = element.jmdict_freq ? element.jmdict_freq.join(" ") : "";
     arrFin[index].kanji_ids         = element.kanji_ids.join(" ").replace(/ 0/g, "");
-    if (arrFin[index].jitenon_details) arrFin[index].jitenon_details = arrFin[index].jitenon_details.replace(/\n/g, "").replace(/\t/g, "");
     arrFin[index].tags              = arrFin[index].sources + " " + arrFin[index].jmdict_freq + (element.word.length == 1 ? " kanji" : "");
 });
 
 fs.writeFileSync('./dist/fin.json', JSON.stringify(arrFin, null, 4), 'utf8'); 
+
+// create csv
+
+var csvstring = "";
+arrFin.forEach((element, index) => {
+    csvstring += 
+        element.word + "\t" +
+        (index + 1) + "\t" +
+        element.sources + "\t" +
+        element.jmdict_details + "\t" +
+        element.jmdict_freq + "\t" +
+        element.kanji_id + "\t" +
+        element.kanji_ids + "\t" +
+        element.audio + "\t" +
+        element.tags +
+        "\n";
+});
+
+fs.writeFileSync('./dist/fin.csv', csvstring, 'utf8'); 
