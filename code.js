@@ -11,9 +11,10 @@ data.wk_audio = require("./source/_wkaudio.json")[0];
 data.core10k_audio = require("./source/_core10kaudio.json")[0];
 
 var switcher = {
-    test_data: true,
-    jmdict_details: true,
+    test_data: false,
+    jmdict_details: false,
     jmdict_non_freq: false,
+    kanji_only: true,
     audio: false
 };
 
@@ -94,6 +95,15 @@ Object.keys(fin).forEach(key => {
         delete fin[key];
     }
 });
+
+// Kanji only, only words with one character
+if(switcher.kanji_only) {
+    Object.keys(fin).forEach(key => {
+        if(key.length != 1) {
+            delete fin[key];
+        }
+    });
+}
 
 process.stdout.write("Removed kanjiless items : " + Object.keys(fin).length + "\n"); 
 
@@ -313,7 +323,7 @@ arrFin.sort(function(a, b) {
 // Stringify
 arrFin.forEach((element, index) => {
     arrFin[index].sources           = element.sources.join(" ");
-    arrFin[index].jmdict_details    = JSON.stringify(element.jmdict_details).replace(/\t/g, "");
+    if(element.jmdict_details) arrFin[index].jmdict_details = JSON.stringify(element.jmdict_details).replace(/\t/g, "");
     arrFin[index].jmdict_freq       = element.jmdict_freq ? element.jmdict_freq.join(" ") : "";
     arrFin[index].kanji_ids         = element.kanji_ids.join(" ").replace(/ 0/g, "");
     arrFin[index].tags              = arrFin[index].sources + " " + arrFin[index].jmdict_freq + (element.word.length == 1 ? " kanji" : "");
