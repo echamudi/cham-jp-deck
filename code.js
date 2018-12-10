@@ -3,20 +3,73 @@ module.paths.push('/usr/local/lib/node_modules');
 var fs = require('fs');
 var cheerio = require('cheerio');
 
-var JMdict = require('./dist/JMdict.json').JMdict.entry;
 var raw = require("./source/assets.js");
 var data = require("./source/otherassets.js");
+
+var JMdict = require('./dist/JMdict.json').JMdict.entry;
+var KANJIDIC = require('./dist/kanjidic2.json').kanjidic2.character;
 
 data.wk_audio = require("./source/_wkaudio.json")[0];
 data.core10k_audio = require("./source/_core10kaudio.json")[0];
 
 var switcher = {
     test_data: false,
-    jmdict_details: false,
+    jmdict_details: true,
     jmdict_non_freq: false,
-    kanji_only: true,
-    audio: false
+    kanjidic_details: true,
+    kanji_only: false,
+    audio: true
 };
+
+// Fix JMDict array consistencies
+
+process.stdout.write("JMDict arrayfication...\n"); 
+
+JMdict.forEach(function(entry) {
+    if (entry.k_ele && !Array.isArray(entry.k_ele)) entry.k_ele = [entry.k_ele]; 
+
+    if(entry.k_ele) {
+        entry.k_ele.forEach(k_ele => {
+            if (k_ele.ke_inf && !Array.isArray(k_ele.ke_inf)) k_ele.ke_inf = [k_ele.ke_inf]; 
+            if (k_ele.ke_pri && !Array.isArray(k_ele.ke_pri)) k_ele.ke_pri = [k_ele.ke_pri]; 
+        });
+    }
+
+    if (entry.r_ele && !Array.isArray(entry.r_ele)) entry.r_ele = [entry.r_ele]; 
+    entry.r_ele.forEach(r_ele => {
+        if (r_ele.re_restr && !Array.isArray(r_ele.re_restr)) r_ele.re_restr = [r_ele.re_restr]; 
+        if (r_ele.re_inf && !Array.isArray(r_ele.re_inf)) r_ele.re_inf = [r_ele.re_inf]; 
+        if (r_ele.re_pri && !Array.isArray(r_ele.re_pri)) r_ele.re_pri = [r_ele.re_pri]; 
+    });    
+
+    if (entry.sense && !Array.isArray(entry.sense)) entry.sense = [entry.sense]; 
+
+    entry.sense.forEach(sense => {
+        if (sense.stagk && !Array.isArray(sense.stagk)) sense.stagk = [sense.stagk]; 
+        if (sense.stagr && !Array.isArray(sense.stagr)) sense.stagr = [sense.stagr]; 
+        if (sense.pos && !Array.isArray(sense.pos)) sense.pos = [sense.pos]; 
+        if (sense.xref && !Array.isArray(sense.xref)) sense.xref = [sense.xref]; 
+        if (sense.ant && !Array.isArray(sense.ant)) sense.ant = [sense.ant]; 
+        if (sense.field && !Array.isArray(sense.field)) sense.field = [sense.field]; 
+        if (sense.misc && !Array.isArray(sense.misc)) sense.misc = [sense.misc]; 
+        if (sense.s_inf && !Array.isArray(sense.s_inf)) sense.s_inf = [sense.s_inf]; 
+        if (sense.lsource && !Array.isArray(sense.lsource)) sense.lsource = [sense.lsource]; 
+        if (sense.dial && !Array.isArray(sense.dial)) sense.dial = [sense.dial]; 
+        if (sense.gloss && !Array.isArray(sense.gloss)) sense.gloss = [sense.gloss]; 
+    });
+});
+process.stdout.write("JMDict arrayfication done\n"); 
+
+// KANJIDIC Fix
+
+process.stdout.write("JMDict restructuring...\n"); 
+
+var temp = {};
+KANJIDIC.forEach(function(character) {
+    temp[character.literal] = character;
+});
+KANJIDIC = temp;
+process.stdout.write("JMDict restructuring done\n"); 
 
 // Add raw from JMdict Freq
 
@@ -24,8 +77,7 @@ raw.vocab_jmdict_freq = [];
 
 JMdict.forEach(function(entry) {
 
-    // if k_ele property is an array of k_ele
-    if (Array.isArray(entry.k_ele)) {
+    if (entry.k_ele) {
         entry.k_ele.forEach(function (k_ele) {
 
             // if it has freq tag, add to the collection
@@ -33,12 +85,7 @@ JMdict.forEach(function(entry) {
                 raw.vocab_jmdict_freq.push(k_ele.keb);
             }
         });
-
-    // if k_ele property is the k_ele itself
-    } else if (entry.k_ele && entry.k_ele.ke_pri) {
-        raw.vocab_jmdict_freq.push(entry.k_ele.keb);
     }
-
 });
 
 // Add raw from JMdict All
@@ -48,19 +95,13 @@ raw.vocab_jmdict = [];
 if (switcher.jmdict_non_freq) {
     JMdict.forEach(function(entry) {
 
-        // if k_ele property is an array of k_ele
-        if (Array.isArray(entry.k_ele)) {
-            entry.k_ele.forEach(function (k_ele) {
-                raw.vocab_jmdict.push(k_ele.keb);
-            });
+        entry.k_ele.forEach(function (k_ele) {
+            raw.vocab_jmdict.push(k_ele.keb);
+        });
 
-        // if k_ele property is the k_ele itself
-        } else if (entry.k_ele) {
-            raw.vocab_jmdict.push(entry.k_ele.keb);
-        }
     });
 } else {
-    // If we don't add all jmdict words, we'll remove the extra kanjis from them.
+    // If we don't add all jmdict words, we'll remove the extra kanjis from assets.js
     delete raw.kanji_jmdict_extra;
 }
 
@@ -76,6 +117,7 @@ Object.keys(raw).forEach(function(key) {
                 sources: [key]
             };
         } else {
+            // If it's already exist in fin, just add the source tags
             fin[element].sources.push(key);
         }
     });
@@ -96,16 +138,20 @@ Object.keys(fin).forEach(key => {
     }
 });
 
-// Kanji only, only words with one character
+process.stdout.write("Total items after removing kanjiless items : " + Object.keys(fin).length + "\n"); 
+
+// Kanji only mode, only words with one character
 if(switcher.kanji_only) {
+    process.stdout.write("Kanji mode..." + Object.keys(fin).length + "\n"); 
+
     Object.keys(fin).forEach(key => {
         if(key.length != 1) {
             delete fin[key];
         }
     });
-}
 
-process.stdout.write("Removed kanjiless items : " + Object.keys(fin).length + "\n"); 
+    process.stdout.write("Total items after kanji mode filter: " + Object.keys(fin).length + "\n"); 
+}
 
 // remove duplicates in source array in each item
 
@@ -119,6 +165,8 @@ Object.keys(fin).forEach(function(key) {
 // Set this part to false for production
 
 if (switcher.test_data) {
+    process.stdout.write("Test mode on\n"); 
+
     Object.keys(fin).forEach(function(key) {
         if(!["投票する", "立つ", "齎す", "齎", "〜年来", "諸〜", "擤"].includes(key)) {
             delete fin[key];
@@ -147,10 +195,6 @@ if (switcher.jmdict_details) {
         var found = false;
 
         if (entry.k_ele) {
-            if (!Array.isArray(entry.k_ele)) {
-                entry.k_ele = [entry.k_ele];
-            }
-
             entry.k_ele.forEach(k_ele => {
                 if (keys.includes(k_ele.keb)) {
                     found = true;
@@ -231,6 +275,20 @@ if (switcher.jmdict_details) {
         });
 
         fin[key].jmdict_freq = jmdict_freq;
+    });
+}
+
+// KANJIDIC
+
+if (switcher.kanjidic_details) {
+    Object.keys(fin).forEach(function(key) {
+        if(key.length == 1 && KANJIDIC[key]) {
+            fin[key].kanjidic_details = KANJIDIC[key];
+            fin[key].kanjidic_misc    = [];
+            if (KANJIDIC[key].misc.grade) fin[key].kanjidic_misc.push(`kanjidic_grade_${KANJIDIC[key].misc.grade}`);
+            if (KANJIDIC[key].misc.stroke_count) fin[key].kanjidic_misc.push(`kanjidic_stroke_${KANJIDIC[key].misc.stroke_count}`);
+            if (KANJIDIC[key].misc.jlpt) fin[key].kanjidic_misc.push(`kanjidic_jlpt_${KANJIDIC[key].misc.jlpt}`);
+        }
     });
 }
 
@@ -320,32 +378,38 @@ arrFin.sort(function(a, b) {
     return 0;
 });
 
-// Stringify
-arrFin.forEach((element, index) => {
-    arrFin[index].sources           = element.sources.join(" ");
-    if(element.jmdict_details) arrFin[index].jmdict_details = JSON.stringify(element.jmdict_details).replace(/\t/g, "");
-    arrFin[index].jmdict_freq       = element.jmdict_freq ? element.jmdict_freq.join(" ") : "";
-    arrFin[index].kanji_ids         = element.kanji_ids.join(" ").replace(/ 0/g, "");
-    arrFin[index].tags              = arrFin[index].sources + " " + arrFin[index].jmdict_freq + (element.word.length == 1 ? " kanji" : "");
-});
+// Delete 
 
+// Save JSON
 fs.writeFileSync('./dist/fin.json', JSON.stringify(arrFin, null, 4), 'utf8'); 
 
-// create csv
-
+// Create CSV
 var csvstring = "";
 arrFin.forEach((element, index) => {
     csvstring += 
-        element.word + "\t" +
-        (index + 1) + "\t" +
-        element.sources + "\t" +
-        element.jmdict_details + "\t" +
-        element.jmdict_freq + "\t" +
-        element.kanji_id + "\t" +
-        element.kanji_ids + "\t" +
-        element.audio + "\t" +
-        element.tags +
+        element.word + 
+        "\t" +
+        (index + 1) + 
+        "\t" +
+        element.sources.join(" ") + 
+        "\t" +
+        (element.kanjidic_details ? JSON.stringify(element.kanjidic_details).replace(/\t/g, "") : "") + 
+        "\t" +
+        (element.kanjidic_misc ? element.kanjidic_misc.join(" ") : "") + 
+        "\t" +
+        (element.jmdict_details ? JSON.stringify(element.jmdict_details).replace(/\t/g, "") : "") + 
+        "\t" +
+        (element.jmdict_freq ? element.jmdict_freq.join(" ") : "") + 
+        "\t" +
+        element.kanji_id + 
+        "\t" +
+        element.kanji_ids.join(" ").replace(/ 0/g, "") + 
+        "\t" +
+        element.audio + 
+        "\t" +
+        (element.sources.join(" ") + " " + (element.kanjidic_misc ? element.kanjidic_misc.join(" ") : "") + " " + (element.jmdict_freq ? element.jmdict_freq.join(" ") : "") + " " + (element.word.length == 1 ? "kanji" : "")) + // tags
         "\n";
 });
 
+// Save CSV
 fs.writeFileSync('./dist/fin.csv', csvstring, 'utf8'); 
