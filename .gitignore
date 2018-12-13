@@ -1,5 +1,12 @@
 dist
 dist_jitenon
 source/kanji.jitenon.jp
+
+# Source: http://www.edrdg.org/kanjidic/kanjidic2.xml.gz
 source/kanjidic2.xml
+
+# Source: http://ftp.monash.edu/pub/nihongo/JMdict_e.gz
 source/JMdict_e
+
+# Source: https://commons.wikimedia.org/wiki/User:Artsakenos/CCD-TSV
+source/CCD.csv

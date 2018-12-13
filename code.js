@@ -60,16 +60,33 @@ JMdict.forEach(function(entry) {
 });
 process.stdout.write("JMDict arrayfication done\n"); 
 
-// KANJIDIC Fix
+// JMDict build dictionary object
 
-process.stdout.write("JMDict restructuring...\n"); 
-
-var temp = {};
-KANJIDIC.forEach(function(character) {
-    temp[character.literal] = character;
+process.stdout.write("JMDict creating object...\n"); 
+JMdictObj = {};
+JMdict.forEach(function(entry) {
+    // If the entry has kanji writing
+    if (entry.k_ele) entry.k_ele.forEach(k_ele => {
+        // Create array if it's not in the new dict yet
+        if (!JMdictObj[k_ele.keb]) {
+            JMdictObj[k_ele.keb] = [entry];  
+        // Otherwise, push the alternate meaning 
+        } else {
+            JMdictObj[k_ele.keb].push(entry);
+        }
+    });
 });
-KANJIDIC = temp;
-process.stdout.write("JMDict restructuring done\n"); 
+process.stdout.write("JMDict creating object done\n"); 
+
+// KANJIDIC Restructure
+
+process.stdout.write("KANJIDIC restructuring...\n"); 
+
+var KANJIDICObj = {};
+KANJIDIC.forEach(function(character) {
+    KANJIDICObj[character.literal] = character;
+});
+process.stdout.write("KANJIDIC restructuring done\n"); 
 
 // Add raw from JMdict Freq
 
@@ -77,15 +94,13 @@ raw.vocab_jmdict_freq = [];
 
 JMdict.forEach(function(entry) {
 
-    if (entry.k_ele) {
-        entry.k_ele.forEach(function (k_ele) {
+    if (entry.k_ele) entry.k_ele.forEach(function (k_ele) {
 
-            // if it has freq tag, add to the collection
-            if (k_ele.ke_pri) {
-                raw.vocab_jmdict_freq.push(k_ele.keb);
-            }
-        });
-    }
+        // if it has freq tag, add to the collection
+        if (k_ele.ke_pri) {
+            raw.vocab_jmdict_freq.push(k_ele.keb);
+        }
+    });
 });
 
 // Add raw from JMdict All
@@ -95,7 +110,7 @@ raw.vocab_jmdict = [];
 if (switcher.jmdict_non_freq) {
     JMdict.forEach(function(entry) {
 
-        entry.k_ele.forEach(function (k_ele) {
+        if (entry.k_ele) entry.k_ele.forEach(function (k_ele) {
             raw.vocab_jmdict.push(k_ele.keb);
         });
 
@@ -104,6 +119,9 @@ if (switcher.jmdict_non_freq) {
     // If we don't add all jmdict words, we'll remove the extra kanjis from assets.js
     delete raw.kanji_jmdict_extra;
 }
+
+delete JMdict;
+delete KANJIDIC;
 
 // Combine everything into one object
 
@@ -168,7 +186,7 @@ if (switcher.test_data) {
     process.stdout.write("Test mode on\n"); 
 
     Object.keys(fin).forEach(function(key) {
-        if(!["投票する", "立つ", "齎す", "齎", "〜年来", "諸〜", "擤"].includes(key)) {
+        if(!["逑", "投票する", "立つ", "齎す", "齎", "〜年来", "諸〜", "擤"].includes(key)) {
             delete fin[key];
         }
     });
@@ -177,39 +195,6 @@ if (switcher.test_data) {
 // JMdict details
 
 if (switcher.jmdict_details) {
-    // JMdict compact, remove unrelated JMdict items
-
-    process.stdout.write("JMdict before compact : " + Object.keys(JMdict).length + " \n"); 
-
-    keys = Object.keys(fin);
-    keys.forEach(key => { // variant writings from WaniKani
-        if (key.substring(key.length - 2, key.length) == "する") keys.push(key.substring(0, key.length - 2)); 
-        if (key.substring(key.length - 1, key.length) == "〜") keys.push(key.substring(0, key.length - 1));
-        if (key.substring(0, 1) == "〜") keys.push(key.substring(1, key.length));
-    });
-
-    i = 0;
-    JMdict = JMdict.filter(entry => {
-        process.stdout.write(`(${i++})`);
-
-        var found = false;
-
-        if (entry.k_ele) {
-            entry.k_ele.forEach(k_ele => {
-                if (keys.includes(k_ele.keb)) {
-                    found = true;
-                    return;
-                }
-            });
-        }
-
-        process.stdout.clearLine(); 
-        process.stdout.cursorTo(0);  
-        return found;
-    });
-    process.stdout.write("Compacted JMdict : " + Object.keys(JMdict).length + " \n");
-    fs.writeFileSync('./dist/JMdict_compact.json', JSON.stringify(JMdict, null, 4), 'utf8'); 
-
     // Search for meaning
 
     process.stdout.write("Searching for meaning\n"); 
@@ -219,33 +204,35 @@ if (switcher.jmdict_details) {
     Object.keys(fin).forEach(function(key) {
         process.stdout.write(`(${index++}) Searching for ${key} ...`);
 
-        keys = [key];
-        if (key.substring(key.length - 2, key.length) == "する") keys.push(key.substring(0, key.length - 2));
-        if (key.substring(key.length - 1, key.length) == "〜") keys.push(key.substring(0, key.length - 1));
-        if (key.substring(0, 1) == "〜") keys.push(key.substring(1, key.length));
+        alternatives = {
+            nosuru: "",
+            nopredash: "",
+            nopostdash: ""
+        };
 
-        var searchFoundings = JMdict.filter(entry => {
+        if (key.substring(key.length - 2, key.length) == "する") alternatives.nosuru = key.substring(0, key.length - 2);
+        if (key.substring(key.length - 1, key.length) == "〜") alternatives.nopredash = key.substring(0, key.length - 1);
+        if (key.substring(0, 1) == "〜") alternatives.nopostdash = key.substring(1, key.length);
 
-            var found = false;
+        if(JMdictObj[key]) {
+            fin[key].jmdict_details = JMdictObj[key];
 
-            entry.k_ele.forEach(k_ele => {
-                if (keys.includes(k_ele.keb)) {
-                    found = true;
-                    return;
-                }
-            });
+        } else if (alternatives.nosuru && JMdictObj[alternatives.nosuru]) {
+            fin[key].jmdict_details = JMdictObj[alternatives.nosuru];
 
-            return found;
-        });
+        } else if (alternatives.nopredash && JMdictObj[alternatives.nopredash]) {
+            fin[key].jmdict_details = JMdictObj[alternatives.nopredash];
+
+        } else if (alternatives.nopostdash && JMdictObj[alternatives.nopostdash]) {
+            fin[key].jmdict_details = JMdictObj[alternatives.nopostdash];
+
+        } else {
+            fin[key].jmdict_details = [];
+        };
 
         process.stdout.clearLine(); 
         process.stdout.cursorTo(0);  
 
-        if(searchFoundings.length >= 1) {
-            fin[key].jmdict_details = searchFoundings;
-        } else {
-            fin[key].jmdict_details = [];
-        }
     });
     process.stdout.write("Done searching for meaning\n");
 
@@ -282,12 +269,19 @@ if (switcher.jmdict_details) {
 
 if (switcher.kanjidic_details) {
     Object.keys(fin).forEach(function(key) {
-        if(key.length == 1 && KANJIDIC[key]) {
-            fin[key].kanjidic_details = KANJIDIC[key];
+        if(key.length == 1 && KANJIDICObj[key]) {
+            fin[key].kanjidic_details = KANJIDICObj[key];
             fin[key].kanjidic_misc    = [];
-            if (KANJIDIC[key].misc.grade) fin[key].kanjidic_misc.push(`kanjidic_grade_${KANJIDIC[key].misc.grade}`);
-            if (KANJIDIC[key].misc.stroke_count) fin[key].kanjidic_misc.push(`kanjidic_stroke_${KANJIDIC[key].misc.stroke_count}`);
-            if (KANJIDIC[key].misc.jlpt) fin[key].kanjidic_misc.push(`kanjidic_jlpt_${KANJIDIC[key].misc.jlpt}`);
+            if (KANJIDICObj[key].misc.grade) fin[key].kanjidic_misc.push(`kanjidic_grade_${KANJIDICObj[key].misc.grade}`);
+            
+            if (KANJIDICObj[key].misc.stroke_count && !Array.isArray(KANJIDICObj[key].misc.stroke_count)) 
+                KANJIDICObj[key].misc.stroke_count = [KANJIDICObj[key].misc.stroke_count];
+
+            KANJIDICObj[key].misc.stroke_count.forEach(function(el) {
+                fin[key].kanjidic_misc.push(`kanjidic_stroke_${el}`);
+            })
+
+            if (KANJIDICObj[key].misc.jlpt) fin[key].kanjidic_misc.push(`kanjidic_jlpt_${KANJIDICObj[key].misc.jlpt}`);
         }
     });
 }
