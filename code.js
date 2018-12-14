@@ -8,6 +8,7 @@ var data = require("./source/otherassets.js");
 
 var JMdict = require('./dist/JMdict.json').JMdict.entry;
 var KANJIDIC = require('./dist/kanjidic2.json').kanjidic2.character;
+var CCD = require('./dist/CCD.json');
 
 data.wk_audio = require("./source/_wkaudio.json")[0];
 data.core10k_audio = require("./source/_core10kaudio.json")[0];
@@ -81,12 +82,70 @@ process.stdout.write("JMDict creating object done\n");
 // KANJIDIC Restructure
 
 process.stdout.write("KANJIDIC restructuring...\n"); 
-
 var KANJIDICObj = {};
 KANJIDIC.forEach(function(character) {
     KANJIDICObj[character.literal] = character;
+    if (character.reading_meaning) {
+        if(!Array.isArray(character.reading_meaning.rmgroup.reading))
+            character.reading_meaning.rmgroup.reading = 
+                [character.reading_meaning.rmgroup.reading];
+        if(!Array.isArray(character.reading_meaning.rmgroup.meaning))
+            character.reading_meaning.rmgroup.meaning = 
+                [character.reading_meaning.rmgroup.meaning];
+    }
 });
 process.stdout.write("KANJIDIC restructuring done\n"); 
+
+// CCD build dictionary object
+
+process.stdout.write("CCD creating object...\n"); 
+
+var CCDObj = {};
+CCD.forEach(function(entry) {
+    CCDObj[entry.char] = {};
+    CCDObj[entry.char].kanji = entry.char;
+    CCDObj[entry.char].meaning = [];
+    CCDObj[entry.char].reading = [];
+    CCDObj[entry.char].composition_characters = [...entry.first, ...entry.second];
+    CCDObj[entry.char].composition_characters = CCDObj[entry.char].composition_characters.filter(function(el) {
+        if (el == "*" || el == "?") return false;
+        return true;
+    })
+
+    CCDObj[entry.char].compositions = [];
+
+    if (KANJIDICObj[entry.char] && KANJIDICObj[entry.char].reading_meaning) {
+        KANJIDICObj[entry.char].reading_meaning.rmgroup.reading.forEach(function(reading) {
+            if (reading && reading.r_type == "ja_on") CCDObj[entry.char].reading.push(reading.$t);
+            if (reading && reading.r_type == "ja_kun") CCDObj[entry.char].reading.push(reading.$t);
+        });
+        KANJIDICObj[entry.char].reading_meaning.rmgroup.meaning.forEach(function(meaning) {
+            if (typeof meaning === 'string') CCDObj[entry.char].meaning.push(meaning);
+        });
+    }
+
+    CCDObj[entry.char].meaning = CCDObj[entry.char].meaning.join("; ");
+    CCDObj[entry.char].reading = CCDObj[entry.char].reading.join("; ");
+});
+
+Object.keys(CCDObj).forEach(function(key) {
+    if(CCDObj[key].kanji != CCDObj[key].composition_characters[0]) {
+        CCDObj[key].composition_characters.forEach(function(composition_character) {
+            if (CCDObj[composition_character]) {
+                CCDObj[key].compositions.push(CCDObj[composition_character]);
+            } else {
+                CCDObj[key].compositions.push({"kanji": composition_character});
+            }
+        });
+    }
+
+    delete CCDObj[key].composition_characters;
+    if(!CCDObj[key].compositions.length) delete CCDObj[key].compositions;
+    if(!CCDObj[key].meaning) delete CCDObj[key].meaning;
+    if(!CCDObj[key].reading) delete CCDObj[key].reading;
+});
+
+process.stdout.write("CCD creating object done\n"); 
 
 // Add raw from JMdict Freq
 
@@ -120,8 +179,7 @@ if (switcher.jmdict_non_freq) {
     delete raw.kanji_jmdict_extra;
 }
 
-delete JMdict;
-delete KANJIDIC;
+
 
 // Combine everything into one object
 
@@ -265,7 +323,7 @@ if (switcher.jmdict_details) {
     });
 }
 
-// KANJIDIC
+// KANJIDIC details
 
 if (switcher.kanjidic_details) {
     Object.keys(fin).forEach(function(key) {
@@ -285,6 +343,14 @@ if (switcher.kanjidic_details) {
         }
     });
 }
+
+// CCD details
+Object.keys(fin).forEach(function(key) {
+    fin[key].ccd_details = [];
+    fin[key].word.split("").forEach(function(character) {
+        if(CCDObj[character]) fin[key].ccd_details.push(CCDObj[character]);
+    })
+});
 
 // Add audios
 // Put false to skip audio 
@@ -391,9 +457,11 @@ arrFin.forEach((element, index) => {
         "\t" +
         (element.kanjidic_misc ? element.kanjidic_misc.join(" ") : "") + 
         "\t" +
-        (element.jmdict_details ? JSON.stringify(element.jmdict_details).replace(/\t/g, "") : "") + 
+        (element.jmdict_details ? JSON.stringify(element.jmdict_details).replace(/\t/g, "") : "[]") + 
         "\t" +
         (element.jmdict_freq ? element.jmdict_freq.join(" ") : "") + 
+        "\t" +
+        (element.ccd_details ? JSON.stringify(element.ccd_details).replace(/\t/g, "") : "[]") + 
         "\t" +
         element.kanji_id + 
         "\t" +
