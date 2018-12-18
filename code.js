@@ -397,7 +397,7 @@ Object.keys(fin).forEach(function(key) {
     fin[key].kanji_ids.sort((a, b) => b - a);
 });
 
-// Sort
+// Sort Entries
 
 var arrFin = [];
 Object.keys(fin).forEach(function(key) {
@@ -439,6 +439,18 @@ arrFin.sort(function(a, b) {
     return 0;
 });
 
+// Sort the best meaning
+arrFin.forEach(function(entry) {
+    entry.jmdict_details.sort(function(a, b) {
+        if((a.k_ele[0].keb == entry.word) && (b.k_ele[0].keb != entry.word)) {
+            return -1;
+        } else if((a.k_ele[0].keb != entry.word) && (b.k_ele[0].keb == entry.word)) {
+            return 1;
+        } else {
+            return 0;
+        }
+    });
+});
 
 // Save JSON
 fs.writeFileSync('./dist/fin.json', JSON.stringify(arrFin, null, 4), 'utf8'); 

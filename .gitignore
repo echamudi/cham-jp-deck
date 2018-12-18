@@ -11,6 +11,9 @@ source/JMdict_e
 source/CCD.csv
 
 # Don't mind following ignores
+test.js
+test2.js
+test3.js
 other_tools/kanji.jitenon.jp
 other_tools/_core10kaudio.json
 other_tools/_wkaudio.json
