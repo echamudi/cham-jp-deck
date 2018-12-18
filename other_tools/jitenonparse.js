@@ -1,3 +1,6 @@
+// Just me playing with parsing HTML
+// Please ignore this file
+
 module.paths.push('/usr/local/lib/node_modules');
 var fs = require('fs');
 var data = require("./source/otherassets.js");
