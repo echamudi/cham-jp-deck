@@ -10,8 +10,8 @@ var JMdict = require('./dist/JMdict.json').JMdict.entry;
 var KANJIDIC = require('./dist/kanjidic2.json').kanjidic2.character;
 var CCD = require('./dist/CCD.json');
 
-data.wk_audio = require("./source/_wkaudio.json")[0];
-data.core10k_audio = require("./source/_core10kaudio.json")[0];
+// data.wk_audio = require("./source/_wkaudio.json")[0];
+// data.core10k_audio = require("./source/_core10kaudio.json")[0];
 
 var switcher = {
     test_data: false,
@@ -19,7 +19,7 @@ var switcher = {
     jmdict_non_freq: false,
     kanjidic_details: true,
     kanji_only: false,
-    audio: true
+    // audio: true
 };
 
 // Fix JMDict array consistencies
@@ -106,6 +106,7 @@ CCD.forEach(function(entry) {
     CCDObj[entry.char].kanji = entry.char;
     CCDObj[entry.char].meaning = [];
     CCDObj[entry.char].reading = [];
+    CCDObj[entry.char].composition_kind = entry.composition_kind;
     CCDObj[entry.char].composition_characters = [...entry.first, ...entry.second];
     CCDObj[entry.char].composition_characters = CCDObj[entry.char].composition_characters.filter(function(el) {
         if (el == "*" || el == "?") return false;
@@ -129,6 +130,23 @@ CCD.forEach(function(entry) {
 });
 
 Object.keys(CCDObj).forEach(function(key) {
+    // replacing bugs imho
+
+    // always use 糸
+    CCDObj[key].composition_characters.forEach(function(comp, i) {
+        if (comp == "糹") CCDObj[key].composition_characters[i] = "糸";
+    });
+
+    //  use 行 for 鵆 衍 衎 etc
+    if (CCDObj[key].composition_kind == "弼" && CCDObj[key].composition_characters[0] == "彳") 
+        CCDObj[key].composition_characters[0] = "行";
+
+});
+
+// fs.writeFileSync('./dist/CCDObj.json', JSON.stringify(CCDObj, null, 4), 'utf8');
+// process.exit(); 
+
+Object.keys(CCDObj).forEach(function(key) {
     if(CCDObj[key].kanji != CCDObj[key].composition_characters[0]) {
         CCDObj[key].composition_characters.forEach(function(composition_character) {
             if (CCDObj[composition_character]) {
@@ -139,6 +157,7 @@ Object.keys(CCDObj).forEach(function(key) {
         });
     }
 
+    delete CCDObj[key].composition_kind;
     delete CCDObj[key].composition_characters;
     if(!CCDObj[key].compositions.length) delete CCDObj[key].compositions;
     if(!CCDObj[key].meaning) delete CCDObj[key].meaning;
@@ -355,21 +374,21 @@ Object.keys(fin).forEach(function(key) {
 // Add audios
 // Put false to skip audio 
 
-if (switcher.audio) {
-    Object.keys(fin).forEach(function(key) {
-        if (data.core10k_audio[key]) {
-            fin[key].audio = "[sound:" + data.core10k_audio[key] + "]";
-        } else if(data.wk_audio[key]) {
-            fin[key].audio = "[sound:" + data.wk_audio[key] + "]";
-        } else {
-            fin[key].audio = "";
-        }
-    });
-} else {
-    Object.keys(fin).forEach(function(key) {
-        fin[key].audio = "";
-    });
-}
+// if (switcher.audio) {
+//     Object.keys(fin).forEach(function(key) {
+//         if (data.core10k_audio[key]) {
+//             fin[key].audio = "[sound:" + data.core10k_audio[key] + "]";
+//         } else if(data.wk_audio[key]) {
+//             fin[key].audio = "[sound:" + data.wk_audio[key] + "]";
+//         } else {
+//             fin[key].audio = "";
+//         }
+//     });
+// } else {
+//     Object.keys(fin).forEach(function(key) {
+//         fin[key].audio = "";
+//     });
+// }
 
 // Add kanji ID for sorting
 
@@ -438,40 +457,5 @@ arrFin.sort(function(a, b) {
     return 0;
 });
 
-// Delete 
-
 // Save JSON
 fs.writeFileSync('./dist/fin.json', JSON.stringify(arrFin, null, 4), 'utf8'); 
-
-// Create CSV
-var csvstring = "";
-arrFin.forEach((element, index) => {
-    csvstring += 
-        element.word + 
-        "\t" +
-        (index + 1) + 
-        "\t" +
-        element.sources.join(" ") + 
-        "\t" +
-        (element.kanjidic_details ? JSON.stringify(element.kanjidic_details).replace(/\t/g, "") : "") + 
-        "\t" +
-        (element.kanjidic_misc ? element.kanjidic_misc.join(" ") : "") + 
-        "\t" +
-        (element.jmdict_details ? JSON.stringify(element.jmdict_details).replace(/\t/g, "") : "[]") + 
-        "\t" +
-        (element.jmdict_freq ? element.jmdict_freq.join(" ") : "") + 
-        "\t" +
-        (element.ccd_details ? JSON.stringify(element.ccd_details).replace(/\t/g, "") : "[]") + 
-        "\t" +
-        element.kanji_id + 
-        "\t" +
-        element.kanji_ids.join(" ").replace(/ 0/g, "") + 
-        "\t" +
-        element.audio + 
-        "\t" +
-        (element.sources.join(" ") + " " + (element.kanjidic_misc ? element.kanjidic_misc.join(" ") : "") + " " + (element.jmdict_freq ? element.jmdict_freq.join(" ") : "") + " " + (element.word.length == 1 ? "kanji" : "")) + // tags
-        "\n";
-});
-
-// Save CSV
-fs.writeFileSync('./dist/fin.csv', csvstring, 'utf8'); 

@@ -9,5 +9,6 @@ csvtojson --delimiter="\t" --noheader="true" --headers="[\"empty\",\"char\",\"st
 xml2json ./source/kanjidic2.xml ./dist/kanjidic2.json
 xml2json ./source/JMdict_e ./dist/JMdict.json
 node --max-old-space-size=4096 code.js
+node --max-old-space-size=4096 makecsv.js
 ```
 

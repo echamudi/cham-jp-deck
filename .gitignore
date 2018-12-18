@@ -1,5 +1,6 @@
 dist
 dist_jitenon
+jitenonparse.js
 source/kanji.jitenon.jp
 
 # Source: http://www.edrdg.org/kanjidic/kanjidic2.xml.gz
