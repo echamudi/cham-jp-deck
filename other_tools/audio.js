@@ -7,9 +7,12 @@ var data = {};
 
 data.wk_audio = require("./_wkaudio.json")[0];
 data.core10k_audio = require("./_core10kaudio.json")[0];
+data.jpod_audio = require("./_jpodaudio.json");
 
 arrFin.forEach(function(el) {
-    if (data.core10k_audio[el.word]) {
+    if (data.jpod_audio[el.word]) {
+        el.audio = "[sound:" + data.jpod_audio[el.word].file + "]";
+    } else if (data.core10k_audio[el.word]) {
         el.audio = "[sound:" + data.core10k_audio[el.word] + "]";
     } else if(data.wk_audio[el.word]) {
         el.audio = "[sound:" + data.wk_audio[el.word] + "]";
