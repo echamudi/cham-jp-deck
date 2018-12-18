@@ -1,6 +1,5 @@
 dist
 dist_jitenon
-source/kanji.jitenon.jp
 
 # Source: http://www.edrdg.org/kanjidic/kanjidic2.xml.gz
 source/kanjidic2.xml
@@ -10,3 +9,9 @@ source/JMdict_e
 
 # Source: https://commons.wikimedia.org/wiki/User:Artsakenos/CCD-TSV
 source/CCD.csv
+
+# Don't mind following ignores
+other_tools/kanji.jitenon.jp
+other_tools/_core10kaudio.json
+other_tools/_wkaudio.json
+lol.html

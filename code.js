@@ -10,16 +10,12 @@ var JMdict = require('./dist/JMdict.json').JMdict.entry;
 var KANJIDIC = require('./dist/kanjidic2.json').kanjidic2.character;
 var CCD = require('./dist/CCD.json');
 
-// data.wk_audio = require("./source/_wkaudio.json")[0];
-// data.core10k_audio = require("./source/_core10kaudio.json")[0];
-
 var switcher = {
     test_data: false,
     jmdict_details: true,
     jmdict_non_freq: false,
     kanjidic_details: true,
     kanji_only: false,
-    // audio: true
 };
 
 // Fix JMDict array consistencies
@@ -371,24 +367,10 @@ Object.keys(fin).forEach(function(key) {
     })
 });
 
-// Add audios
-// Put false to skip audio 
-
-// if (switcher.audio) {
-//     Object.keys(fin).forEach(function(key) {
-//         if (data.core10k_audio[key]) {
-//             fin[key].audio = "[sound:" + data.core10k_audio[key] + "]";
-//         } else if(data.wk_audio[key]) {
-//             fin[key].audio = "[sound:" + data.wk_audio[key] + "]";
-//         } else {
-//             fin[key].audio = "";
-//         }
-//     });
-// } else {
-//     Object.keys(fin).forEach(function(key) {
-//         fin[key].audio = "";
-//     });
-// }
+// No audio available :(
+Object.keys(fin).forEach(function(key) {
+    fin[key].audio = "";
+});
 
 // Add kanji ID for sorting
 
@@ -456,6 +438,7 @@ arrFin.sort(function(a, b) {
     if(a.word.length < b.word.length) return -1;
     return 0;
 });
+
 
 // Save JSON
 fs.writeFileSync('./dist/fin.json', JSON.stringify(arrFin, null, 4), 'utf8'); 
