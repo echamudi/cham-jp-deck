@@ -1,5 +1,5 @@
 var fs = require('fs');
-var arrFin = require("./dist/fin.json");
+var arrFin = require("./dist/jp_yomi_ezzat.json");
 
 // Create CSV
 var csvstring = "";
@@ -21,4 +21,4 @@ arrFin.forEach((element, index) => {
 });
 
 // Save CSV
-fs.writeFileSync('./dist/fin.csv', csvstring, 'utf8'); 
+fs.writeFileSync('./dist/jp_yomi_ezzat.csv', csvstring, 'utf8'); 
