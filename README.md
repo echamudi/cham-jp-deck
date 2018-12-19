@@ -1,9 +1,7 @@
 
-# JMdict to Anki
+# JP Yomi Ezzat 
 
-This simple code takes data from [JMdict](https://www.edrdg.org/jmdict/j_jmdict.html), [KANJIDIC](http://www.edrdg.org/wiki/index.php/KANJIDIC_Project), and [Chinese characters decomposition](https://commons.wikimedia.org/wiki/Commons:Chinese_characters_decomposition), combines them, and generetes a CSV table that can be imported in anki.
-
-I call the deck as "JP Yomi Ezzat".
+This simple code takes data from [JMdict](https://www.edrdg.org/jmdict/j_jmdict.html), [KANJIDIC](http://www.edrdg.org/wiki/index.php/KANJIDIC_Project), and [Chinese characters decomposition](https://commons.wikimedia.org/wiki/Commons:Chinese_characters_decomposition), combines them, and generetes a CSV table that can be imported in [Anki](https://apps.ankiweb.net).
 
 ## FAQ
 
@@ -48,7 +46,7 @@ No :(, I can't find open source audio sources that I can use here.
 
 ### Is there direct link to the Anki deck?
 
-~ Uploading...
+~ I'll upload it soon...
 
 ## Create the CSV deck
 

@@ -1,7 +1,6 @@
 module.paths.push('/usr/local/lib/node_modules');
 
 var fs = require('fs');
-var cheerio = require('cheerio');
 
 var raw = require("./source/assets.js");
 var data = require("./source/otherassets.js");
@@ -453,4 +452,4 @@ arrFin.forEach(function(entry) {
 });
 
 // Save JSON
-fs.writeFileSync('./dist/fin.json', JSON.stringify(arrFin, null, 4), 'utf8'); 
+fs.writeFileSync('./dist/jp_yomi_ezzat.json', JSON.stringify(arrFin, null, 4), 'utf8'); 
