@@ -3,6 +3,8 @@
 
 This simple code takes data from [JMdict](https://www.edrdg.org/jmdict/j_jmdict.html), [KANJIDIC](http://www.edrdg.org/wiki/index.php/KANJIDIC_Project), and [Chinese characters decomposition](https://commons.wikimedia.org/wiki/Commons:Chinese_characters_decomposition), combines them, and generetes a CSV table that can be imported in anki.
 
+I call the deck as "JP Yomi Ezzat".
+
 ## FAQ
 
 ### Which items are included?
@@ -36,7 +38,7 @@ Yeah, I don't recommend to learn all of them. You can always suspend and unsuspe
 
 All items are tagged with their sources, so you can use `"deck:JP Yomi Ezzat" sources:*wk*` filter in anki and suspend the items.
 
-### I don't want to learn Kanji Kentei level 1.
+### I don't want to include Kanji Kentei level 1.
 
 Filter the deck `"deck:JP Yomi Ezzat" (tag:kanji_jitenon_kanken1jyun or tag:kanji_jitenon_kanken1 or tag:kanji_jitenon_kanken1alt)` and suspend them.
 
