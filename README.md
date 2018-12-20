@@ -7,14 +7,13 @@ This simple code takes data from [JMdict](https://www.edrdg.org/jmdict/j_jmdict.
 
 ### Which items are included?
 
-The contents are :
 - Words from **JMdict** that contains has frequency tags and contains kanji,
 - Words from **JMdict** that don't have frequency tags but appear in ManyThings examples, Wanikani vocabs, Core 6K, Core 10K, and Tanos JLPT vocabs, 
 - Kanji letters from **KANJIDIC** from kanken 10 to kanken 1.
 
 ### How the items are sorted?
 
-Firstly, all kanji letters are sorted by kanji kentei level. Inside each level, kanji letters are sorted by frequency. And then, after each kanji, sample vocabs are added based on the learned kanji items.
+First, all kanji letters are sorted by kanji kentei level. Inside each level, kanji letters are sorted by frequency. And then, after each kanji, sample vocabs are added based on the learned kanji items.
 
 ### What is JMdict frequency tag
 
@@ -36,7 +35,7 @@ Taken from https://www.edrdg.org/jmdict/edict_doc.html
 
 Check the comments in `makecsv.js` file.
 
-### 30k+ notes are too much, how do I reduce the items?
+### 30k+ cards are too much, how do I reduce the items?
 
 Yeah, I don't recommend to learn all of them. You can always suspend and unsuspend using the tags and sources field.
 
@@ -49,7 +48,7 @@ If you are trying to learn the joyo kanji, try this steps:
 - Check the result `"deck:JP Yomi Ezzat" -is:suspended`. You'll have around 8910 items.
 - Assuming you study 15 new items everyday, you will complete all items in around 1 year 8 months.
 
-As comparison Wanikani has 8330 total items (excluding radicals).
+As comparison, Wanikani has 8330 total items (excluding radicals).
 
 **TLDR;** Suspend eveything, unsuspend `"deck:JP Yomi Ezzat" ((tag:kanji_kanshudo_joyo or tag:kanji_jitenon_kanken2) or (tag:nf01 or tag:nf02 or tag:nf03 or tag:nf04 or tag:nf05 or tag:nf06 or tag:nf07 or tag:nf08 or tag:nf09 or tag:nf10 or tag:nf11 or tag:nf12 or tag:nf13 or tag:nf14 or tag:nf15))`.
 
