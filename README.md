@@ -53,9 +53,12 @@ As comparison Wanikani has 8330 total items (excluding radicals).
 
 **TLDR;** Suspend eveything, unsuspend `"deck:JP Yomi Ezzat" ((tag:kanji_kanshudo_joyo or tag:kanji_jitenon_kanken2) or (tag:nf01 or tag:nf02 or tag:nf03 or tag:nf04 or tag:nf05 or tag:nf06 or tag:nf07 or tag:nf08 or tag:nf09 or tag:nf10 or tag:nf11 or tag:nf12 or tag:nf13 or tag:nf14 or tag:nf15))`.
 
-### I also use Wanikani, how do I remove the items to avoid overlapping? 
+### I also use Wanikani or iKnow Core 6000, how do I remove the items to avoid overlapping? 
 
-Use `"deck:JP Yomi Ezzat" sources:*wk*` filter in anki and suspend the items.
+For Wanikani: use `"deck:JP Yomi Ezzat" sources:*wk*` filter and suspend the items.
+
+For Core 6K: use `"deck:JP Yomi Ezzat" tag:vocab_core6k` filter and suspend the items.
+
 
 ### I don't want to include Kanji Kentei level 1.
 
@@ -65,8 +68,8 @@ Filter the deck `"deck:JP Yomi Ezzat" (tag:kanji_jitenon_kanken1jyun or tag:kanj
 
 Yep.
 
-- Some letters in Kanji Kentei level 1 are not found in KANJIDIC. Use this filter `"deck:JP Yomi Ezzat" kanjidic_details:"" tag:kanji` to suspend them.
-- Some words exist in external sources (e.g. Wanikani or ManyThings) but they don't exist in JMdict. Use this filter `"deck:JP Yomi Ezzat" jmdict_details:[] -tag:kanji` to suspend them.
+- Some letters in Kanji Kentei level 1 are not found in KANJIDIC. Use this filter `"deck:JP Yomi Ezzat" kanjidic_details:"" tag:kanji` and suspend them.
+- Some words exist in external sources (e.g. Wanikani or ManyThings) but they don't exist in JMdict. Use this filter `"deck:JP Yomi Ezzat" jmdict_details:[] -tag:kanji` and suspend them.
 
 ### Is there audio in this deck? 
 
@@ -78,7 +81,7 @@ No :(, I can't find open source audio sources that I can use here.
 
 ## Creating the CSV deck
 
-This project uses node.
+This project uses node.js.
 
 First, Install csvtojson and xml2json.
 
