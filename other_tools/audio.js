@@ -1,8 +1,10 @@
 // Audio is not available due to copyright issues
 // Please ignore this file
 
+// node --max-old-space-size=4096 ./other_tools/audio.js
+
 var fs = require('fs');
-var arrFin = require("../dist/fin.json");
+var arrFin = require("../dist/jp_yomi_ezzat.json");
 var data = {};
 
 data.wk_audio = require("./_wkaudio.json")[0];
@@ -21,4 +23,4 @@ arrFin.forEach(function(el) {
     }
 });
 
-fs.writeFileSync('./dist/fin.json', JSON.stringify(arrFin, null, 4), 'utf8'); 
+fs.writeFileSync('./dist/jp_yomi_ezzat.json', JSON.stringify(arrFin, null, 4), 'utf8'); 

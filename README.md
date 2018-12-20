@@ -12,6 +12,10 @@ The contents are :
 - Words from **JMdict** that don't have frequency tags but appear in ManyThings examples, Wanikani vocabs, Core 6K, Core 10K, and Tanos JLPT vocabs, 
 - Kanji letters from **KANJIDIC** from kanken 10 to kanken 1.
 
+### How the items are sorted?
+
+Firstly, all kanji letters are sorted by kanji kentei level. Inside each level, kanji letters are sorted by frequency. And then, after each kanji, sample vocabs are added based on the learned kanji items.
+
 ### What is JMdict frequency tag
 
 Taken from https://www.edrdg.org/jmdict/edict_doc.html
@@ -36,9 +40,22 @@ Check the comments in `makecsv.js` file.
 
 Yeah, I don't recommend to learn all of them. You can always suspend and unsuspend using the tags and sources field.
 
-### I also use wanikani, how do I remove the items to avoid overlapping? 
+If you are trying to learn the joyo kanji, try this steps:
+- Suspend all the cards `"deck:JP Yomi Ezzat"`.
+- Unsuspend the joyo kanji `"deck:JP Yomi Ezzat" (tag:kanji_kanshudo_joyo or tag:kanji_jitenon_kanken2)`.
+- Unsuspend the first 500 vocabs from frequency-of-use ranking by using this filter `"deck:JP Yomi Ezzat" tag:nf01`.
+- Up until this steps, you will have around 2583 items to learn. I think these are not sufficient. 
+- Add more samples by unsuspending even more frequency-of-use vocabs using this filter `"deck:JP Yomi Ezzat" (tag:nf02 or tag:nf03 or tag:nf04 or tag:nf05 or tag:nf06 or tag:nf07 or tag:nf08 or tag:nf09 or tag:nf10 or tag:nf11 or tag:nf12 or tag:nf13 or tag:nf14 or tag:nf15)`.
+- Check the result `"deck:JP Yomi Ezzat" -is:suspended`. You'll have around 8910 items.
+- Assuming you study 15 new items everyday, you will complete all items in around 1 year 8 months.
 
-All items are tagged with their sources, so you can use `"deck:JP Yomi Ezzat" sources:*wk*` filter in anki and suspend the items.
+As comparison Wanikani 8330 total items (excluding radicals).
+
+**TLDR;** Suspend eveything, unsuspend `"deck:JP Yomi Ezzat" ((tag:kanji_kanshudo_joyo or tag:kanji_jitenon_kanken2) or (tag:nf01 or tag:nf02 or tag:nf03 or tag:nf04 or tag:nf05 or tag:nf06 or tag:nf07 or tag:nf08 or tag:nf09 or tag:nf10 or tag:nf11 or tag:nf12 or tag:nf13 or tag:nf14 or tag:nf15))`.
+
+### I also use Wanikani, how do I remove the items to avoid overlapping? 
+
+Use `"deck:JP Yomi Ezzat" sources:*wk*` filter in anki and suspend the items.
 
 ### I don't want to include Kanji Kentei level 1.
 
