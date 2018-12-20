@@ -48,7 +48,16 @@ No :(, I can't find open source audio sources that I can use here.
 
 ~ I'll upload it soon...
 
-## Create the CSV deck
+## Creating the CSV deck
+
+This project uses node.
+
+First, Install csvtojson and xml2json.
+
+```
+npm install -g csvtojson
+npm install -g xml2json
+```
 
 Put the sources in the source folder
 ```
@@ -86,3 +95,10 @@ node --max-old-space-size=4096 makecsv.js
 - Tanos JLPT http://www.tanos.co.uk/jlpt/
 - Wanikani https://wanikani.com
 
+## Licenses
+
+This project is released under [AGPLv3](http://www.gnu.org/licenses/agpl-3.0.html). 
+
+Images, logos, docs, and articles are released under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). 
+
+Third party sources, libraries, dependencies, and tools used in this project are tied with their own licenses respectively.
