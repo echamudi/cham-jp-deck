@@ -9,7 +9,7 @@ This simple code takes data from [JMdict](https://www.edrdg.org/jmdict/j_jmdict.
 
 - Words from **JMdict** that contains has frequency tags and contains kanji,
 - Words from **JMdict** that don't have frequency tags but appear in ManyThings examples, Wanikani vocabs, Core 6K, Core 10K, and Tanos JLPT vocabs, 
-- Kanji letters from **KANJIDIC** from kanken 10 to kanken 1.
+- Kanji letters from **KANJIDIC**, starting from kanken 10 to kanken 1.
 
 ### How the items are sorted?
 
