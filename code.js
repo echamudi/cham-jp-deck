@@ -17,9 +17,26 @@ var switcher = {
     kanji_only: false,
 };
 
+// Sort kanji_jitenon_kanken10 to kanji_jitenon_kanken2 by freq
+
+var joyo_kanji_order = {};
+raw.kanji_kanshudo_joyo.forEach(function (el, i) {
+    joyo_kanji_order[el] = i + 1;
+});
+
+function kanji_sorter(a, b) {
+    if (joyo_kanji_order[a] < joyo_kanji_order[b]) return -1;
+    return 1;
+}
+
+for (var i = 10; i >= 2; i--) {
+    raw[`kanji_jitenon_kanken${i}`].sort(kanji_sorter);
+}
+raw[`kanji_jitenon_kanken2jyun`].sort(kanji_sorter);
+
 // Fix JMDict array consistencies
 
-process.stdout.write("JMDict arrayfication...\n"); 
+process.stdout.write("Creating JMDict object...\n"); 
 
 JMdict.forEach(function(entry) {
     if (entry.k_ele && !Array.isArray(entry.k_ele)) entry.k_ele = [entry.k_ele]; 
@@ -54,11 +71,9 @@ JMdict.forEach(function(entry) {
         if (sense.gloss && !Array.isArray(sense.gloss)) sense.gloss = [sense.gloss]; 
     });
 });
-process.stdout.write("JMDict arrayfication done\n"); 
 
 // JMDict build dictionary object
 
-process.stdout.write("JMDict creating object...\n"); 
 JMdictObj = {};
 JMdict.forEach(function(entry) {
     // If the entry has kanji writing
@@ -72,11 +87,11 @@ JMdict.forEach(function(entry) {
         }
     });
 });
-process.stdout.write("JMDict creating object done\n"); 
+process.stdout.write("👍 Done JMDict creating object\n"); 
 
 // KANJIDIC Restructure
 
-process.stdout.write("KANJIDIC restructuring...\n"); 
+process.stdout.write("Creating KANJIDIC object...\n"); 
 var KANJIDICObj = {};
 KANJIDIC.forEach(function(character) {
     KANJIDICObj[character.literal] = character;
@@ -89,7 +104,7 @@ KANJIDIC.forEach(function(character) {
                 [character.reading_meaning.rmgroup.meaning];
     }
 });
-process.stdout.write("KANJIDIC restructuring done\n"); 
+process.stdout.write("👍 Done creating KANJIDIC object\n"); 
 
 // CCD build dictionary object
 
@@ -159,7 +174,7 @@ Object.keys(CCDObj).forEach(function(key) {
     if(!CCDObj[key].reading) delete CCDObj[key].reading;
 });
 
-process.stdout.write("CCD creating object done\n"); 
+process.stdout.write("👍 Done creating CCD object\n"); 
 
 // Add raw from JMdict Freq
 
@@ -192,8 +207,6 @@ if (switcher.jmdict_non_freq) {
     // If we don't add all jmdict words, we'll remove the extra kanjis from assets.js
     delete raw.kanji_jmdict_extra;
 }
-
-
 
 // Combine everything into one object
 
@@ -269,7 +282,7 @@ if (switcher.test_data) {
 if (switcher.jmdict_details) {
     // Search for meaning
 
-    process.stdout.write("Searching for meaning\n"); 
+    process.stdout.write("Matching for JMdict details...\n"); 
     keys = Object.keys(fin);
     index = 1;
 
@@ -306,7 +319,6 @@ if (switcher.jmdict_details) {
         process.stdout.cursorTo(0);  
 
     });
-    process.stdout.write("Done searching for meaning\n");
 
     // Get freq from JMdict
 
@@ -335,11 +347,15 @@ if (switcher.jmdict_details) {
 
         fin[key].jmdict_freq = jmdict_freq;
     });
+
+    process.stdout.write("👍 Done matching for JMdict details\n");
 }
 
 // KANJIDIC details
 
 if (switcher.kanjidic_details) {
+    process.stdout.write("Matching KANJIDIC details...\n"); 
+
     Object.keys(fin).forEach(function(key) {
         if(key.length == 1 && KANJIDICObj[key]) {
             fin[key].kanjidic_details = KANJIDICObj[key];
@@ -356,21 +372,26 @@ if (switcher.kanjidic_details) {
             if (KANJIDICObj[key].misc.jlpt) fin[key].kanjidic_misc.push(`kanjidic_jlpt_${KANJIDICObj[key].misc.jlpt}`);
         }
     });
+
+    process.stdout.write("👍 Done matching KANJIDIC details\n"); 
 }
 
 // CCD details
+process.stdout.write("Adding CCD details...\n"); 
 Object.keys(fin).forEach(function(key) {
     fin[key].ccd_details = [];
     fin[key].word.split("").forEach(function(character) {
         if(CCDObj[character]) fin[key].ccd_details.push(CCDObj[character]);
     })
 });
+process.stdout.write("👍 Done adding CCD details\n"); 
 
 // No audio available :(
 Object.keys(fin).forEach(function(key) {
     fin[key].audio = "";
 });
 
+process.stdout.write("Sorting...\n"); 
 // Add kanji ID for sorting
 
 i = 1;
@@ -450,6 +471,12 @@ arrFin.forEach(function(entry) {
         }
     });
 });
+process.stdout.write("👍 Done sorting\n"); 
 
 // Save JSON
-fs.writeFileSync('./dist/jp_yomi_ezzat.json', JSON.stringify(arrFin, null, 4), 'utf8'); 
+process.stdout.write("Saving jp_yomi_ezzat.json...\n"); 
+fs.writeFileSync('./dist/jp_yomi_ezzat.json', JSON.stringify(arrFin, null, 4), 'utf8');
+process.stdout.write("👍 Done saving jp_yomi_ezzat.json\n"); 
+
+process.stdout.write("✌️  Have a nice day...\n"); 
+
