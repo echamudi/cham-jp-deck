@@ -49,7 +49,7 @@ If you are trying to learn the joyo kanji, try this steps:
 - Check the result `"deck:JP Yomi Ezzat" -is:suspended`. You'll have around 8910 items.
 - Assuming you study 15 new items everyday, you will complete all items in around 1 year 8 months.
 
-As comparison Wanikani 8330 total items (excluding radicals).
+As comparison Wanikani has 8330 total items (excluding radicals).
 
 **TLDR;** Suspend eveything, unsuspend `"deck:JP Yomi Ezzat" ((tag:kanji_kanshudo_joyo or tag:kanji_jitenon_kanken2) or (tag:nf01 or tag:nf02 or tag:nf03 or tag:nf04 or tag:nf05 or tag:nf06 or tag:nf07 or tag:nf08 or tag:nf09 or tag:nf10 or tag:nf11 or tag:nf12 or tag:nf13 or tag:nf14 or tag:nf15))`.
 
