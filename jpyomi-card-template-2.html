@@ -1,0 +1,286 @@
+<!-- Universal Styling -->
+<style>
+    .container {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        line-height: 1.5;
+        font-family: sans-serif;
+    }
+
+    :root > .card {
+        position: unset;
+        display: unset;
+        flex-direction: unset;
+        min-width: unset;
+        word-wrap: unset;
+        background-color: unset;
+        background-clip: unset;
+        border: unset;
+        border-radius: unset;    
+    }
+
+    :root > .card {
+        background: #eee8d5;
+    }
+
+    .text-left {
+        text-align: left;
+    }
+
+    .content {
+        background: #fdf6e3;
+        padding: 30px;
+        width: 500px;
+        max-width: 100%;
+        border-radius: 10px;
+    }
+
+    .alert-solarized {
+        background-color: #eee8d5;
+        border-color: #cec6af;
+    }
+
+    hr {
+        margin-top: 20px;  
+        border: none;
+        border-bottom: rgba(0, 0, 0, 0.1) solid 1px;
+        margin-bottom: 20px;        
+    }
+
+    a { 
+        color: rgba(0, 0, 0, 0.7); 
+    }
+    
+    a:hover { 
+        color: rgba(0, 0, 0, 0.5); 
+    } 
+
+</style>
+
+<!-- Custom Styling -->
+<style>
+    .question {
+        /*font-family: HiraMinProN-W3;*/
+        font-family: serif;
+        font-size: 48px;
+    }
+
+    .answer {
+        margin-top: 12px;
+    }
+
+    /* jmdict */
+
+    .jmdict-meaning {
+        text-align: left;
+    }
+
+    .jmdict-meaning .entry {
+        margin-bottom: 20px;
+    }
+
+    .jmdict-meaning .gloss {
+        position: relative;
+        margin-left: 20px;
+    }
+
+    .jmdict-meaning .gloss:before {
+        content: '•';
+        position: absolute;
+        left: -15px;
+    }
+
+    .jmdict-meaning .keb,
+    .jmdict-meaning .reb {
+        display: inline-block;
+        border: solid 1px rgba(206, 198, 175, 0.3);
+        border-radius: 2px;
+        margin-bottom: 4px;
+        padding: 0px 3px;
+        font-size: 18px;
+    }
+
+    .jmdict-meaning .keb.current {
+        border: solid 1px rgba(206, 198, 175, 0.5);
+        background-color: rgba(238, 232, 213, 0.5);
+    }
+
+    .jmdict-meaning .reb {
+        font-size: 32px;
+        border: solid 1px rgba(206, 198, 175, 1);
+        background-color: rgba(238, 232, 213, 1);
+        padding: 0px 6px;
+    }
+    
+    .jmdict-meaning .s_inf,
+    .jmdict-meaning .misc,
+    .jmdict-meaning .field,
+    .jmdict-meaning .dial,
+    .jmdict-meaning .pos
+    {
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.5)
+    }
+</style>
+
+<!-- Front back style -->
+<style id="flip-style">
+    .anki-back-only {
+        display: none;
+    }
+</style>
+
+<style id="ccd-details-hider">
+    .ccd-deep {
+        display: none !important;
+    }
+</style>
+
+<!-- Card -->
+<div id="container" class="container">
+    <div class="content">
+        <div class="question">{{word}}</div>
+        <div id="answer_scroll" class="answer anki-back-only">
+            <div id="jmdict_details"></div>
+            <div id="ccd-details" class="text-left" onclick="document.getElementById('ccd-details-hider').innerHTML = ''; document.getElementById('ccd-details').removeAttribute('onclick');"></div>
+        </div>
+        <div class="anki-back-only">
+            <hr>
+            <a href="https://tangorin.com/sentences?search={{word}}&from=jpn&to=eng">単語林</a>
+            <a href="https://www.google.com/search?safe=strict&tbm=isch&source=hp&q={{word}}は">グーグル画像</a>
+            <a href="japanese://search/{{word}}">レンゾ</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Get vars
+    var vocabJp                   = "{{word}}";
+    var vocabKana                 = "";
+    var vocabJpFurigana           = "";
+    var sentenceJp                = "";
+    var sentenceJpFurigana        = "";
+    var sentenceJpClozed          = "";
+    var sentenceJpClozedFurigana  = "";
+    var charsJp                   = vocabJp.split("");
+    var vocabEn                   = "";
+    var sentenceEn                = "";
+    var sentenceEnClozed          = "";
+    var id                        = "";
+    var tags                      = "{{Tags}}".split(" ");
+
+    // JMDict
+
+    var jmdict_details            = (function () {/*
+        {{jmdict_details}}
+    */}).toString().match(/[^]*\/\*([^]*)\*\/\}$/)[1];
+    var jmdict_details_obj        = JSON.parse(jmdict_details);
+
+    jmdict_details = `<div class="jmdict-meaning">`;
+
+    jmdict_details_obj.forEach(entry => {
+        jmdict_details += `<div class="entry">`;
+
+        // Reading
+
+        entry.r_ele.forEach(r_ele => {
+            jmdict_details += `<span class="reb">${r_ele.reb}</span> `;
+        });
+
+        jmdict_details += `<div class="separator"></div>`;
+
+        // Kanji
+
+        entry.k_ele.forEach(k_ele => {
+            if (k_ele.keb == vocabJp) {
+                jmdict_details += `<span class="keb current">${k_ele.keb}</span> `;
+            } else {
+                jmdict_details += `<span class="keb">${k_ele.keb}</span> `;
+            }
+        });
+        
+        // Meaning
+
+        entry.sense.forEach(sense => {
+            if(sense.s_inf)
+            sense.s_inf.forEach(s_inf => {
+                jmdict_details += s_inf ? `<div class="s_inf">${s_inf}</div> ` : ``;
+            });
+
+            if(sense.misc)
+            sense.misc.forEach(misc => {
+                jmdict_details += misc ? `<div class="misc">${misc}</div> ` : ``;
+            });
+
+            if(sense.pos)
+            sense.pos.forEach(pos => {
+                jmdict_details += pos ? `<div class="pos">${pos}</div> ` : ``;
+            });
+            
+            jmdict_details += `<div class="separator"></div>`;
+
+            jmdict_details += `<div class="gloss">`;
+
+            if(sense.gloss)
+            sense.gloss.forEach(gloss => {
+                jmdict_details += gloss ? `${gloss.$t}, ` : ``;
+            });
+            jmdict_details = jmdict_details.slice(0, -2);
+
+            jmdict_details += `</div>`;
+
+            jmdict_details += `<div class="separator"></div>`;
+        });
+
+        jmdict_details += `</div>`;
+    });
+    
+    document.getElementById("jmdict_details").innerHTML = jmdict_details;
+
+    // CCD
+
+    var ccd_details            = (function () {/*
+        {{ccd_details}}
+    */}).toString().match(/[^]*\/\*([^]*)\*\/\}$/)[1];
+    var ccd_details_obj       = JSON.parse(ccd_details);
+    document.getElementById("ccd-details").innerHTML = "<hr>";
+    
+    function ccd_builder (obj, depth) {
+        final_text = "";
+        final_text += `
+            <div style="padding-left: ${depth * 30}px; margin-bottom: 10px; display: flex;" class="${depth >= 2 ? "ccd-deep" : ""}">
+                <div style="padding-right: 10px;">
+                    <b style="font-size: 25px;">${obj.kanji ? obj.kanji : ""}</b><br>
+                </div>
+                <div>
+                    <div>${obj.reading ? obj.reading : ""}</div>
+                    <div>${obj.meaning ? obj.meaning : ""}</div>
+                </div>
+            </div>
+        `;
+        
+        if (obj.compositions) {
+            obj.compositions.forEach(comp => {
+                final_text += ccd_builder(comp, depth + 1);
+            });
+        }
+        return final_text;
+    };
+
+    ccd_details_obj.forEach(item => {
+        document.getElementById("ccd-details").innerHTML += ccd_builder(item, 0);
+    });
+</script>
+
+<!-- Back side
+    {{FrontSide}}
+    <div style="display: none;">
+    {{audio}}
+    </div>
+    <script>
+        document.getElementById('flip-style').innerHTML = ".anki-front-only {display:none}";
+    </script>
+-->
