@@ -28,6 +28,10 @@ Taken from https://www.edrdg.org/jmdict/edict_doc.html
 > 
 > Entries with news1, ichi1, spec1/2 and gai1 values are marked with a "(P)" in the EDICT and EDICT2 files.
 
+### What are the columns in the csv file?
+
+Check the comments in `makecsv.js` file.
+
 ### 30k+ notes are too much, how do I reduce the items?
 
 Yeah, I don't recommend to learn all of them. You can always suspend and unsuspend using the tags and sources field.
