@@ -40,6 +40,13 @@ All items are tagged with their sources, so you can use `"deck:JP Yomi Ezzat" so
 
 Filter the deck `"deck:JP Yomi Ezzat" (tag:kanji_jitenon_kanken1jyun or tag:kanji_jitenon_kanken1 or tag:kanji_jitenon_kanken1alt)` and suspend them.
 
+### I found an entry that doesn't have any details JMDict and KANIDIC.
+
+Yep.
+
+- Some letters in Kanji Kentei level 1 are not found in KANJIDIC. Use this filter `"deck:JP Yomi Ezzat" kanjidic_details:"" tag:kanji` to suspend them.
+- Some words exist in external sources (e.g. Wanikani or ManyThings) but they don't exist in JMdict. Use this filter `"deck:JP Yomi Ezzat" jmdict_details:[] -tag:kanji` to suspend them.
+
 ### Is there audio in this deck? 
 
 No :(, I can't find open source audio sources that I can use here.
