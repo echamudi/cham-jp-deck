@@ -4,8 +4,6 @@
         text-align: center;
         display: flex;
         justify-content: center;
-        margin-top: 10px;
-        margin-bottom: 10px;
         line-height: 1.5;
         font-family: sans-serif;
     }
@@ -32,7 +30,8 @@
 
     .content {
         background: #fdf6e3;
-        padding: 30px;
+        padding: 20px;
+        margin: 10px;
         width: 500px;
         max-width: 100%;
         border-radius: 10px;
@@ -150,7 +149,7 @@
         <div class="anki-back-only">
             <hr>
             <a href="https://tangorin.com/sentences?search={{word}}&from=jpn&to=eng">単語林</a>
-            <a href="https://www.google.com/search?safe=strict&tbm=isch&source=hp&q={{word}}は">グーグル画像</a>
+            <a href="https://www.google.com/search?safe=strict&tbm=isch&source=hp&q={{word}}">グーグル画像</a>
             <a href="japanese://search/{{word}}">レンゾ</a>
         </div>
     </div>
@@ -282,5 +281,6 @@
     </div>
     <script>
         document.getElementById('flip-style').innerHTML = ".anki-front-only {display:none}";
+        document.getElementById("answer_scroll").scrollIntoView({block: "start"});
     </script>
 -->
