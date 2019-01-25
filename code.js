@@ -462,13 +462,18 @@ arrFin.sort(function(a, b) {
 // Sort the best meaning
 arrFin.forEach(function(entry) {
     entry.jmdict_details.sort(function(a, b) {
-        if((a.k_ele[0].keb == entry.word) && (b.k_ele[0].keb != entry.word)) {
-            return -1;
-        } else if((a.k_ele[0].keb != entry.word) && (b.k_ele[0].keb == entry.word)) {
-            return 1;
+
+        let check = function(obj) {
+            let score = 0;
+
+            if (obj.k_ele[0].keb == entry.word) score += 1000;
+            if (obj.r_ele[0].re_pri) score += 100;
+            if (obj.k_ele[0].ke_pri) score += 10;
+
+            return -score;
         }
 
-        return 0;
+        return check(a) - check(b);
     });
 });
 process.stdout.write("👍 Done sorting\n"); 
