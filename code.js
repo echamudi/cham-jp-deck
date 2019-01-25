@@ -466,9 +466,9 @@ arrFin.forEach(function(entry) {
             return -1;
         } else if((a.k_ele[0].keb != entry.word) && (b.k_ele[0].keb == entry.word)) {
             return 1;
-        } else {
-            return 0;
         }
+
+        return 0;
     });
 });
 process.stdout.write("👍 Done sorting\n"); 

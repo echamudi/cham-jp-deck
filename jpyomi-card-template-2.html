@@ -176,13 +176,9 @@
     var id                        = "";
     var tags                      = "{{Tags}}".split(" ");
 
-    // For kanji question (single letter word)
-
-    if (charsJp.length == 1) {
-        document.getElementById("question-detail").innerHTML = "Vocab? Onyomi?";
-    }
-
     // JMDict
+
+    var jmdict_has_significance = 0;
 
     var jmdict_details            = (function () {/*
         {{jmdict_details}}
@@ -209,6 +205,10 @@
         // Kanji
 
         entry.k_ele.forEach(k_ele => {
+            if (k_ele.ke_pri) {
+                jmdict_has_significance = 1;
+            }
+
             jmdict_details += `
                 <span class="keb 
                     ${k_ele.keb == vocabJp ? 'current' : ''}
@@ -256,6 +256,14 @@
     });
     
     document.getElementById("jmdict_details").innerHTML = jmdict_details;
+
+    // For kanji question (single letter word)
+
+    if (charsJp.length == 1 && jmdict_has_significance == 1) {
+        document.getElementById("question-detail").innerHTML = "Onyomi? Vocab?";
+    } else if (charsJp.length == 1) {
+        document.getElementById("question-detail").innerHTML = "Onyomi?";
+    }
 
     // CCD
 
