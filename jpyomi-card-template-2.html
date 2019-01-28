@@ -40,6 +40,7 @@
     .alert-solarized {
         background-color: #eee8d5;
         border-color: #cec6af;
+        padding: 5px;
     }
 
     hr {
@@ -51,11 +52,20 @@
 
     a { 
         color: rgba(0, 0, 0, 0.7); 
+        text-decoration: none;
     }
     
     a:hover { 
         color: rgba(0, 0, 0, 0.5); 
-    } 
+    }
+
+    .h3 {
+        font-size: 1.75rem;
+    }
+
+    .h4 {
+        font-size: 1.5rem;
+    }
 
 </style>
 
@@ -154,7 +164,9 @@
         <div class="anki-back-only">
             <hr>
             <a href="https://tangorin.com/sentences?search={{word}}&from=jpn&to=eng">単語林</a>
+            ・
             <a href="https://www.google.com/search?safe=strict&tbm=isch&source=hp&q={{word}}">グーグル画像</a>
+            ・
             <a href="japanese://search/{{word}}">レンゾ</a>
         </div>
     </div>
