@@ -10,5 +10,8 @@ source/JMdict_e
 # Source: https://commons.wikimedia.org/wiki/User:Artsakenos/CCD-TSV
 source/CCD.csv
 
+# Source: Wisdom dictionary is not available due to copyright
+source/WISDOM.json
+
 # Don't mind following ignores
 other_tools/kanji.jitenon.jp
