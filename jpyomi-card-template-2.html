@@ -40,6 +40,7 @@
     .alert-solarized {
         background-color: #eee8d5;
         border-color: #cec6af;
+        padding: 5px;
     }
 
     hr {
@@ -51,11 +52,20 @@
 
     a { 
         color: rgba(0, 0, 0, 0.7); 
+        text-decoration: none;
     }
     
     a:hover { 
         color: rgba(0, 0, 0, 0.5); 
-    } 
+    }
+
+    .h3 {
+        font-size: 1.75rem;
+    }
+
+    .h4 {
+        font-size: 1.5rem;
+    }
 
 </style>
 
@@ -154,7 +164,9 @@
         <div class="anki-back-only">
             <hr>
             <a href="https://tangorin.com/sentences?search={{word}}&from=jpn&to=eng">単語林</a>
+            ・
             <a href="https://www.google.com/search?safe=strict&tbm=isch&source=hp&q={{word}}">グーグル画像</a>
+            ・
             <a href="japanese://search/{{word}}">レンゾ</a>
         </div>
     </div>
@@ -184,6 +196,8 @@
 
     // JMDict
 
+    var jmdict_has_significance = 0;
+
     var jmdict_details            = (function () {/*
         {{jmdict_details}}
     */}).toString().match(/[^]*\/\*([^]*)\*\/\}$/)[1];
@@ -209,6 +223,10 @@
         // Kanji
 
         entry.k_ele.forEach(k_ele => {
+            if (k_ele.ke_pri) {
+                jmdict_has_significance = 1;
+            }
+
             jmdict_details += `
                 <span class="keb 
                     ${k_ele.keb == vocabJp ? 'current' : ''}
@@ -256,6 +274,14 @@
     });
     
     document.getElementById("jmdict_details").innerHTML = jmdict_details;
+
+    // For kanji question (single letter word)
+
+    if (charsJp.length == 1 && jmdict_has_significance == 1) {
+        document.getElementById("question-detail").innerHTML = "Onyomi? Vocab?";
+    } else if (charsJp.length == 1) {
+        document.getElementById("question-detail").innerHTML = "Onyomi?";
+    }
 
     // CCD
 
