@@ -15,7 +15,6 @@ arrFin.forEach((element, index) => {
         /* ccd_details */       (element.ccd_details ? JSON.stringify(element.ccd_details).replace(/\t/g, "") : "[]") + "\t" +
         /* kanji_id */          element.kanji_id + "\t" +
         /* kanji_ids */         element.kanji_ids.join(" ").replace(/ 0/g, "") + "\t" +
-        /* audio */             element.audio + "\t" +
         /* tags */              (element.sources.join(" ") + " " + (element.kanjidic_misc ? element.kanjidic_misc.join(" ") : "") + " " + (element.jmdict_freq ? element.jmdict_freq.join(" ") : "") + " " + (element.word.length == 1 ? "kanji" : "")) + // tags
                                 "\n";
 });
