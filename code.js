@@ -386,11 +386,6 @@ Object.keys(fin).forEach(function(key) {
 });
 process.stdout.write("👍 Done adding CCD details\n"); 
 
-// No audio available :(
-Object.keys(fin).forEach(function(key) {
-    fin[key].audio = "";
-});
-
 process.stdout.write("Sorting...\n"); 
 // Add kanji ID for sorting
 
