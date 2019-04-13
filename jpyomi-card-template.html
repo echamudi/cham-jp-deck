@@ -137,6 +137,12 @@
         font-size: 12px;
         color: rgba(0, 0, 0, 0.5)
     }
+
+    #ccd_details {
+        margin: 10px;
+        margin-top: 20px;
+    }
+
 </style>
 
 <!-- Front back style -->
@@ -159,7 +165,7 @@
         <div id="question-detail" class="anki-front-only"></div>
         <div id="answer_scroll" class="answer anki-back-only">
             <div id="jmdict_details"></div>
-            <div id="ccd-details" class="text-left" onclick="document.getElementById('ccd-details-hider').innerHTML = ''; document.getElementById('ccd-details').removeAttribute('onclick');"></div>
+            <div id="ccd_details" class="text-left" onclick="document.getElementById('ccd-details-hider').innerHTML = ''; document.getElementById('ccd_details').removeAttribute('onclick');"></div>
         </div>
         <div class="anki-back-only">
             <hr>
@@ -289,7 +295,6 @@
         {{ccd_details}}
     */}).toString().match(/[^]*\/\*([^]*)\*\/\}$/)[1];
     var ccd_details_obj       = JSON.parse(ccd_details);
-    document.getElementById("ccd-details").innerHTML = "<hr>";
     
     function ccd_builder (obj, depth) {
         final_text = "";
@@ -314,7 +319,7 @@
     };
 
     ccd_details_obj.forEach(item => {
-        document.getElementById("ccd-details").innerHTML += ccd_builder(item, 0);
+        document.getElementById("ccd_details").innerHTML += ccd_builder(item, 0);
     });
 </script>
 
