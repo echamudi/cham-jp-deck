@@ -13,7 +13,7 @@ This simple code takes data from [JMdict](https://www.edrdg.org/jmdict/j_jmdict.
 
 ### How the items are sorted?
 
-First, all kanji letters are sorted by kanji kentei level. Inside each level, kanji letters are sorted by frequency. And then, after each kanji, sample vocabs are added based on the learned kanji items.
+First, all kanji letters are sorted by JLPT Levels (N5-N2), and then, the rest of kanjis are sorted by kanji kentei level. After each kanji, sample vocabs are added based on the learned kanji items.
 
 ### What is JMdict frequency tag
 
@@ -74,10 +74,6 @@ Yep.
 
 No :(, I can't find open source audio sources that I can use here.
 
-### Is there direct link to the Anki deck?
-
-~ I'll upload it soon...
-
 ## Creating the CSV deck
 
 Please check [compile](COMPILE.md) document.
@@ -87,6 +83,7 @@ Please check [compile](COMPILE.md) document.
 - JMdict https://www.edrdg.org/jmdict/j_jmdict.html
 - KANJIDIC http://www.edrdg.org/wiki/index.php/KANJIDIC_Project
 - Chinese characters decomposition https://commons.wikimedia.org/wiki/Commons:Chinese_characters_decomposition
+- JLPT Kanji List by Peter van der Woude https://jlptstudy.net/N5/
 - Japanese Core 6000 (Core 6K) https://iknow.jp/content/japanese
 - Japanese Sensei (Core 10K) http://en.colezhu.com/jsensei/
 - Jitenon https://kanji.jitenon.jp
