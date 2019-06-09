@@ -107,6 +107,9 @@ KANJIDIC.forEach(function(character) {
 process.stdout.write("👍 Done creating KANJIDIC object\n"); 
 
 // CCD build dictionary object
+// Sample CCD rows :
+// 	一	1	一	一	1	*	0	M	/	*
+// 	凁	9	吅	冫	2	束	7	IMDL	/	冫
 
 process.stdout.write("CCD creating object...\n"); 
 
