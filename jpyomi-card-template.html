@@ -77,6 +77,10 @@
         font-size: 48px;
     }
 
+    .kana-blue {
+        color: rgb(67, 117, 175);
+    }
+
     .answer {
         margin-top: 12px;
     }
@@ -254,6 +258,10 @@
             if(sense.misc)
             sense.misc.forEach(misc => {
                 jmdict_details += misc ? `<div class="misc">${misc}</div> ` : ``;
+
+                if(misc == "word usually written using kana alone") {
+                    document.getElementsByClassName('question').item(0).classList.add('kana-blue');
+                }
             });
 
             if(sense.pos)
