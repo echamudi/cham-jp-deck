@@ -5,6 +5,7 @@ First, Install csvtojson and xml2json.
 ```
 npm install -g csvtojson
 npm install -g xml2json
+npm install -g xml2json-cli
 ```
 
 Put the sources in the source folder
