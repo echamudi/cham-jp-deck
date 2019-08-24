@@ -221,11 +221,15 @@
         // Reading
 
         entry.r_ele.forEach(r_ele => {
-            jmdict_details += `
-                <span class="reb ${r_ele.re_pri ? '' : 'unusual'}">
-                    ${r_ele.reb}
-                </span>
-            `;
+
+            // If the reading is valid for the current word
+            if (r_ele.re_restr === undefined || r_ele.re_restr.indexOf(vocabJp) !== -1) {
+                jmdict_details += `
+                    <span class="reb ${r_ele.re_pri ? '' : 'unusual'}">
+                        ${r_ele.reb}
+                    </span>
+                `;
+            }
         });
 
         jmdict_details += `<div class="separator"></div>`;
