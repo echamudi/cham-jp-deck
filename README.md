@@ -13,7 +13,7 @@ This simple code takes data from [JMdict](https://www.edrdg.org/jmdict/j_jmdict.
 
 ### How the items are sorted?
 
-First, all kanji letters are sorted by JLPT Levels (N5-N2), and then, the rest of kanjis are sorted by kanji kentei level. After each kanji, sample vocabs are added based on the learned kanji items.
+First, all kanji letters are sorted by kanji kentei level. After each kanji, sample vocabs are added based on the learned kanji items.
 
 ### What is JMdict frequency tag
 
