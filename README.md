@@ -9,7 +9,7 @@ This simple code takes data from [JMdict](https://www.edrdg.org/jmdict/j_jmdict.
 
 1. Create a new folder and open it.
 
-1. Extract the JMdict and KANJIDIC file. Your folder structure should look like this.
+1. Extract the JMdict and KANJIDIC file. Your folder structure should look like this:
 
     ```
     your_new_folder
@@ -19,7 +19,7 @@ This simple code takes data from [JMdict](https://www.edrdg.org/jmdict/j_jmdict.
 
     The file names must be the same as above.
 
-1. Run following commands
+1. Open the folder in terminal and run following commands:
 
     ```sh
     npm install -g cham-jp-deck
