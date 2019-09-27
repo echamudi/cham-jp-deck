@@ -8,7 +8,7 @@ source/kanjidic2.xml
 source/JMdict_e
 
 # Source: https://commons.wikimedia.org/wiki/User:Artsakenos/CCD-TSV
-source/CCD.csv
+# source/CCD.csv
 
 # Don't mind following ignores
 other_tools/kanji.jitenon.jp
