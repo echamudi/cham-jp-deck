@@ -1,7 +1,32 @@
 
-# JP Yomi Ezzat 
+# Cham JP Deck
 
 This simple code takes data from [JMdict](https://www.edrdg.org/jmdict/j_jmdict.html), [KANJIDIC](http://www.edrdg.org/wiki/index.php/KANJIDIC_Project), and [Chinese characters decomposition](https://commons.wikimedia.org/wiki/Commons:Chinese_characters_decomposition), combines them, and generetes a CSV table that can be imported in [Anki](https://apps.ankiweb.net).
+
+## Usage
+
+1. Download [JMdict_e.gz](https://www.edrdg.org/jmdict/edict_doc.html) and [kanjidic2.xml.gz](http://www.edrdg.org/wiki/index.php/KANJIDIC_Project) file.
+
+1. Create a new folder and open it.
+
+1. Extract the JMdict and KANJIDIC file. Your folder structure should look like this.
+
+    ```
+    your_new_folder
+    ├── JMdict_e
+    └── kanjidic2.xml
+    ```
+
+    The file names must be the same as above.
+
+1. Run following commands
+
+    ```sh
+    npm install -g cham-jp-deck
+    chamjpdeck-csv
+    ```
+
+1. If it runs successfully, you'll get the result as `cham_jp_deck.csv`.
 
 ## FAQ
 
@@ -92,10 +117,14 @@ Please check [compile](COMPILE.md) document.
 - Tanos JLPT http://www.tanos.co.uk/jlpt/
 - Wanikani https://wanikani.com
 
-## Licenses
+## Authors
 
-This project is released under [AGPLv3](http://www.gnu.org/licenses/agpl-3.0.html). 
+* **Ezzat Chamudi** - [ezhmd](https://github.com/ezhmd)
 
-Images, logos, docs, and articles are released under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). 
+## License
 
-Third party sources, libraries, dependencies, and tools used in this project are tied with their own licenses respectively.
+Code and documentation copyright 2019 the [Cham JP Deck Project Authors](https://github.com/ezhmd/cham-jp-deck/graphs/contributors). 
+
+Cham JP Deck code is licensed under [MPL-2.0](https://www.mozilla.org/en-US/MPL/2.0/). Images, logos, docs, and articles in this Cham JP Deck project are released under [CC-BY-SA-4.0](https://creativecommons.org/licenses/by-sa/4.0/legalcode).
+
+Libraries, dependencies, and tools used in this project are tied with their own licenses respectively.
