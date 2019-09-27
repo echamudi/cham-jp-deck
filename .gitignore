@@ -12,3 +12,5 @@ source/CCD.csv
 
 # Don't mind following ignores
 other_tools/kanji.jitenon.jp
+
+node_modules
