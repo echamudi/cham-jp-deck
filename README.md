@@ -58,50 +58,55 @@ Taken from https://www.edrdg.org/jmdict/edict_doc.html
 
 ### What are the columns in the csv file?
 
-Check the comments in `makecsv.js` file.
+- word
+- index
+- sources
+- kanjidic_details
+- kanjidic_misc
+- jmdict_details
+- jmdict_freq
+- ccd_details
+- kanji_id
+- kanji_ids
+- tags
 
 ### 30k+ cards are too much, how do I reduce the items?
 
 Yeah, I don't recommend to learn all of them. You can always suspend and unsuspend using the tags and sources field.
 
 If you are trying to learn the joyo kanji, try this steps:
-- Suspend all the cards `"deck:JP Yomi Ezzat"`.
-- Unsuspend the joyo kanji `"deck:JP Yomi Ezzat" (tag:kanji_kanshudo_joyo or tag:kanji_jitenon_kanken2)`.
-- Unsuspend the first 500 vocabs from frequency-of-use ranking by using this filter `"deck:JP Yomi Ezzat" tag:nf01`.
+- Suspend all the cards `"deck:Cham JP Deck"`.
+- Unsuspend the joyo kanji `"deck:Cham JP Deck" (tag:kanji_kanshudo_joyo or tag:kanji_jitenon_kanken2)`.
+- Unsuspend the first 500 vocabs from frequency-of-use ranking by using this filter `"deck:Cham JP Deck" tag:nf01`.
 - Up until this steps, you will have around 2583 items to learn. I think these are not sufficient. 
-- Add more samples by unsuspending even more frequency-of-use vocabs using this filter `"deck:JP Yomi Ezzat" (tag:nf02 or tag:nf03 or tag:nf04 or tag:nf05 or tag:nf06 or tag:nf07 or tag:nf08 or tag:nf09 or tag:nf10 or tag:nf11 or tag:nf12 or tag:nf13 or tag:nf14 or tag:nf15)`.
-- Check the result `"deck:JP Yomi Ezzat" -is:suspended`. You'll have around 8910 items.
+- Add more samples by unsuspending even more frequency-of-use vocabs using this filter `"deck:Cham JP Deck" (tag:nf02 or tag:nf03 or tag:nf04 or tag:nf05 or tag:nf06 or tag:nf07 or tag:nf08 or tag:nf09 or tag:nf10 or tag:nf11 or tag:nf12 or tag:nf13 or tag:nf14 or tag:nf15)`.
+- Check the result `"deck:Cham JP Deck" -is:suspended`. You'll have around 8910 items.
 - Assuming you study 15 new items everyday, you will complete all items in around 1 year 8 months.
 
 As comparison, Wanikani has 8330 total items (excluding radicals).
 
-**TLDR;** Suspend eveything, unsuspend `"deck:JP Yomi Ezzat" ((tag:kanji_kanshudo_joyo or tag:kanji_jitenon_kanken2) or (tag:nf01 or tag:nf02 or tag:nf03 or tag:nf04 or tag:nf05 or tag:nf06 or tag:nf07 or tag:nf08 or tag:nf09 or tag:nf10 or tag:nf11 or tag:nf12 or tag:nf13 or tag:nf14 or tag:nf15))`.
+**TLDR;** Suspend eveything, unsuspend `"deck:Cham JP Deck" ((tag:kanji_kanshudo_joyo or tag:kanji_jitenon_kanken2) or (tag:nf01 or tag:nf02 or tag:nf03 or tag:nf04 or tag:nf05 or tag:nf06 or tag:nf07 or tag:nf08 or tag:nf09 or tag:nf10 or tag:nf11 or tag:nf12 or tag:nf13 or tag:nf14 or tag:nf15))`.
 
 ### I also use Wanikani or iKnow Core 6000, how do I remove the items to avoid overlapping? 
 
-For Wanikani: use `"deck:JP Yomi Ezzat" sources:*wk*` filter and suspend the items.
+For Wanikani: use `"deck:Cham JP Deck" sources:*wk*` filter and suspend the items.
 
-For Core 6K: use `"deck:JP Yomi Ezzat" tag:vocab_core6k` filter and suspend the items.
-
+For Core 6K: use `"deck:Cham JP Deck" tag:vocab_core6k` filter and suspend the items.
 
 ### I don't want to include Kanji Kentei level 1.
 
-Filter the deck `"deck:JP Yomi Ezzat" (tag:kanji_jitenon_kanken1jyun or tag:kanji_jitenon_kanken1 or tag:kanji_jitenon_kanken1alt)` and suspend them.
+Filter the deck `"deck:Cham JP Deck" (tag:kanji_jitenon_kanken1jyun or tag:kanji_jitenon_kanken1 or tag:kanji_jitenon_kanken1alt)` and suspend them.
 
 ### I found an entry that doesn't have any details JMDict and KANIDIC.
 
 Yep.
 
-- Some letters in Kanji Kentei level 1 are not found in KANJIDIC. Use this filter `"deck:JP Yomi Ezzat" kanjidic_details:"" tag:kanji` and suspend them.
-- Some words exist in external sources (e.g. Wanikani or ManyThings) but they don't exist in JMdict. Use this filter `"deck:JP Yomi Ezzat" jmdict_details:[] -tag:kanji` and suspend them.
+- Some letters in Kanji Kentei level 1 are not found in KANJIDIC. Use this filter `"deck:Cham JP Deck" kanjidic_details:"" tag:kanji` and suspend them.
+- Some words exist in external sources (e.g. Wanikani or ManyThings) but they don't exist in JMdict. Use this filter `"deck:Cham JP Deck" jmdict_details:[] -tag:kanji` and suspend them.
 
 ### Is there audio in this deck? 
 
-No :(, I can't find open source audio sources that I can use here.
-
-## Creating the CSV deck
-
-Please check [compile](COMPILE.md) document.
+Not at the moment. But I'm planning to use this [WaniKani open souce pronounciation audio](https://github.com/tofugu/japanese-vocabulary-pronunciation-audio).
 
 ## Acknowledgement
 
