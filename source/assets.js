@@ -3751,6 +3751,5 @@ raw.kanji_manythings = [
 
 raw.kanji_kanken1jyun = kanji.kanken.lv01pre;
 raw.kanji_kanken1 = kanji.kanken.lv01;
-raw.kanji_kanjidic = kanji.all;
 
 module.exports = raw;
