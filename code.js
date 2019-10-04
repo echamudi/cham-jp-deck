@@ -6,7 +6,6 @@ var csvtojson = require("csvtojson");
 
 async function chamJpDeckMaker(jmdictPath, kanjidicPath) {
     var raw = require(__dirname + "/source/assets.js");
-    var data = require(__dirname + "/source/otherassets.js");
 
     console.log('Loading JMdict');
     var JMdictJSON = xml2json.toJson(fs.readFileSync('./JMdict_e', 'utf8'), {
@@ -48,10 +47,10 @@ async function chamJpDeckMaker(jmdictPath, kanjidicPath) {
         kanji_only: false,
     };
     
-    // Sort kanji_jitenon_kanken10 to kanji_jitenon_kanken2 by freq
+    // Sort kanji_kanken10 to kanji_kanken2 by freq
     
     var joyo_kanji_order = {};
-    raw.kanji_kanshudo_joyo.forEach(function (el, i) {
+    raw.kanji_joyo.forEach(function (el, i) {
         joyo_kanji_order[el] = i + 1;
     });
     
@@ -61,9 +60,9 @@ async function chamJpDeckMaker(jmdictPath, kanjidicPath) {
     }
     
     for (var i = 10; i >= 2; i--) {
-        raw[`kanji_jitenon_kanken${i}`].sort(kanji_sorter);
+        raw[`kanji_kanken${i}`].sort(kanji_sorter);
     }
-    raw[`kanji_jitenon_kanken2jyun`].sort(kanji_sorter);
+    raw[`kanji_kanken2jyun`].sort(kanji_sorter);
     
     // Fix JMDict array consistencies
     
