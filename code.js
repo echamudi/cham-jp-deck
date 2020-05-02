@@ -401,6 +401,9 @@ async function chamJpDeckMaker(jmdictPath, kanjidicPath) {
     });
     process.stdout.write("👍 Done adding CCD details\n");
 
+    // Add core6k index
+    // TODO: Add real core6k index, the current sorting in assets is not the original sorting
+
     // Add netflix12k index
     process.stdout.write("Adding Netflix index...\n");
     Object.keys(fin).forEach(function (key) {
