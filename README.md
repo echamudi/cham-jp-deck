@@ -108,6 +108,18 @@ Yep.
 
 Not at the moment. But I'm planning to use this [WaniKani open souce pronounciation audio](https://github.com/tofugu/japanese-vocabulary-pronunciation-audio).
 
+## Development
+
+```sh
+git clone https://github.com/ezhmd/cham-jp-deck
+cd cham-jp-deck
+
+# Put JMdict_e and kanjidic2.xml in the current folder
+
+node cli-csv.js     # run this to generate CSV
+node cli-json.js    # run this to generate JSON
+```
+
 ## Acknowledgment
 
 - Chinese characters decomposition https://commons.wikimedia.org/wiki/Commons:Chinese_characters_decomposition
