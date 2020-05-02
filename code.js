@@ -250,7 +250,7 @@ async function chamJpDeckMaker(jmdictPath, kanjidicPath) {
         if (!key.match(/[\u4e00-\u9faf\u3400-\u4dbf]/g)) {
             delete fin[key];
 
-            // remove error items from manythings
+        // remove error items from manythings
         } else if (key.match(/�/g, "")) {
             delete fin[key];
         }
@@ -401,7 +401,20 @@ async function chamJpDeckMaker(jmdictPath, kanjidicPath) {
     });
     process.stdout.write("👍 Done adding CCD details\n");
 
+    // Add netflix12k index
+    process.stdout.write("Adding Netflix index...\n");
+    Object.keys(fin).forEach(function (key) {
+        fin[key].index_netflix = "";
+    });
+    raw.vocab_netflix12k.forEach((key, index) => {
+        if (fin[key] !== undefined) {
+            fin[key].index_netflix = index + 1;
+        }
+    });
+    process.stdout.write("👍 Done adding Netflix index\n");
+
     process.stdout.write("Sorting...\n");
+
     // Add kanji ID for sorting
 
     i = 1;
@@ -511,6 +524,7 @@ async function chamJpDeckMakerCSV() {
         csvstring +=
             /* word */              element.word + "\t" +
             /* index */             (index + 1) + "\t" +
+            /* index_netflix */     element.index_netflix + "\t" +
             /* sources */           element.sources.join(" ") + "\t" +
             /* kanjidic_details */  (element.kanjidic_details ? JSON.stringify(element.kanjidic_details).replace(/\t/g, "") : "") + "\t" +
             /* kanjidic_misc */     (element.kanjidic_misc ? element.kanjidic_misc.join(" ") : "") + "\t" +
