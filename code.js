@@ -175,6 +175,7 @@ async function chamJpDeckMaker(jmdictPath, kanjidicPath) {
 
         if (comp.meaning.length === 0) delete comp.meaning;
         if (comp.reading.length === 0) delete comp.reading;
+        if (comp.kanji === undefined) comp.kanji = '？';
 
         if (comp.compositions) {
             comp.compositions.forEach(subComp => {
