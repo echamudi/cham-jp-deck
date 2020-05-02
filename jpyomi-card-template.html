@@ -8,7 +8,7 @@
         font-family: sans-serif;
     }
 
-    :root > .card {
+    :root>.card {
         position: unset;
         display: unset;
         flex-direction: unset;
@@ -17,10 +17,10 @@
         background-color: unset;
         background-clip: unset;
         border: unset;
-        border-radius: unset;    
+        border-radius: unset;
     }
 
-    :root > .card {
+    :root>.card {
         background: #eee8d5;
     }
 
@@ -44,19 +44,19 @@
     }
 
     hr {
-        margin-top: 20px;  
+        margin-top: 20px;
         border: none;
         border-bottom: rgba(0, 0, 0, 0.1) solid 1px;
-        margin-bottom: 20px;        
+        margin-bottom: 20px;
     }
 
-    a { 
-        color: rgba(0, 0, 0, 0.7); 
+    a {
+        color: rgba(0, 0, 0, 0.7);
         text-decoration: none;
     }
-    
-    a:hover { 
-        color: rgba(0, 0, 0, 0.5); 
+
+    a:hover {
+        color: rgba(0, 0, 0, 0.5);
     }
 
     .h3 {
@@ -66,7 +66,6 @@
     .h4 {
         font-size: 1.5rem;
     }
-
 </style>
 
 <!-- Custom Styling -->
@@ -131,13 +130,12 @@
     .jmdict-meaning .unusual {
         color: rgba(0, 0, 0, 0.4);
     }
-    
+
     .jmdict-meaning .s_inf,
     .jmdict-meaning .misc,
     .jmdict-meaning .field,
     .jmdict-meaning .dial,
-    .jmdict-meaning .pos
-    {
+    .jmdict-meaning .pos {
         font-size: 12px;
         color: rgba(0, 0, 0, 0.5)
     }
@@ -146,7 +144,6 @@
         margin: 10px;
         margin-top: 20px;
     }
-
 </style>
 
 <!-- Front back style -->
@@ -169,7 +166,9 @@
         <div id="question-detail" class="anki-front-only"></div>
         <div id="answer_scroll" class="answer anki-back-only">
             <div id="jmdict_details"></div>
-            <div id="ccd_details" class="text-left" onclick="document.getElementById('ccd-details-hider').innerHTML = ''; document.getElementById('ccd_details').removeAttribute('onclick');"></div>
+            <div id="ccd_details" class="text-left"
+                onclick="document.getElementById('ccd-details-hider').innerHTML = ''; document.getElementById('ccd_details').removeAttribute('onclick');">
+            </div>
         </div>
         <div class="anki-back-only">
             <hr>
@@ -184,19 +183,19 @@
 
 <script>
     // Get vars
-    var vocabJp                   = "{{word}}";
-    var vocabKana                 = "";
-    var vocabJpFurigana           = "";
-    var sentenceJp                = "";
-    var sentenceJpFurigana        = "";
-    var sentenceJpClozed          = "";
-    var sentenceJpClozedFurigana  = "";
-    var charsJp                   = vocabJp.split("");
-    var vocabEn                   = "";
-    var sentenceEn                = "";
-    var sentenceEnClozed          = "";
-    var id                        = "";
-    var tags                      = "{{Tags}}".split(" ");
+    var vocabJp = "{{word}}";
+    var vocabKana = "";
+    var vocabJpFurigana = "";
+    var sentenceJp = "";
+    var sentenceJpFurigana = "";
+    var sentenceJpClozed = "";
+    var sentenceJpClozedFurigana = "";
+    var charsJp = vocabJp.split("");
+    var vocabEn = "";
+    var sentenceEn = "";
+    var sentenceEnClozed = "";
+    var id = "";
+    var tags = "{{Tags}}".split(" ");
 
     // For kanji question (single letter word)
 
@@ -208,10 +207,10 @@
 
     var jmdict_has_significance = 0;
 
-    var jmdict_details            = (function () {/*
+    var jmdict_details = (function () {/*
         {{jmdict_details}}
     */}).toString().match(/[^]*\/\*([^]*)\*\/\}$/)[1];
-    var jmdict_details_obj        = JSON.parse(jmdict_details);
+    var jmdict_details_obj = JSON.parse(jmdict_details);
 
     jmdict_details = `<div class="jmdict-meaning">`;
 
@@ -250,37 +249,37 @@
                 </span>
             `;
         });
-        
+
         // Meaning
 
         entry.sense.forEach(sense => {
-            if(sense.s_inf)
-            sense.s_inf.forEach(s_inf => {
-                jmdict_details += s_inf ? `<div class="s_inf">${s_inf}</div> ` : ``;
-            });
+            if (sense.s_inf)
+                sense.s_inf.forEach(s_inf => {
+                    jmdict_details += s_inf ? `<div class="s_inf">${s_inf}</div> ` : ``;
+                });
 
-            if(sense.misc)
-            sense.misc.forEach(misc => {
-                jmdict_details += misc ? `<div class="misc">${misc}</div> ` : ``;
+            if (sense.misc)
+                sense.misc.forEach(misc => {
+                    jmdict_details += misc ? `<div class="misc">${misc}</div> ` : ``;
 
-                if(misc == "word usually written using kana alone") {
-                    document.getElementsByClassName('question').item(0).classList.add('kana-blue');
-                }
-            });
+                    if (misc == "word usually written using kana alone") {
+                        document.getElementsByClassName('question').item(0).classList.add('kana-blue');
+                    }
+                });
 
-            if(sense.pos)
-            sense.pos.forEach(pos => {
-                jmdict_details += pos ? `<div class="pos">${pos}</div> ` : ``;
-            });
-            
+            if (sense.pos)
+                sense.pos.forEach(pos => {
+                    jmdict_details += pos ? `<div class="pos">${pos}</div> ` : ``;
+                });
+
             jmdict_details += `<div class="separator"></div>`;
 
             jmdict_details += `<div class="gloss">`;
 
-            if(sense.gloss)
-            sense.gloss.forEach(gloss => {
-                jmdict_details += gloss ? `${gloss.$t}, ` : ``;
-            });
+            if (sense.gloss)
+                sense.gloss.forEach(gloss => {
+                    jmdict_details += gloss ? `${gloss.$t}, ` : ``;
+                });
             jmdict_details = jmdict_details.slice(0, -2);
 
             jmdict_details += `</div>`;
@@ -290,7 +289,7 @@
 
         jmdict_details += `</div>`;
     });
-    
+
     document.getElementById("jmdict_details").innerHTML = jmdict_details;
 
     // For kanji question (single letter word)
@@ -303,12 +302,12 @@
 
     // CCD
 
-    var ccd_details            = (function () {/*
+    var ccd_details = (function () {/*
         {{ccd_details}}
     */}).toString().match(/[^]*\/\*([^]*)\*\/\}$/)[1];
-    var ccd_details_obj       = JSON.parse(ccd_details);
-    
-    function ccd_builder (obj, depth) {
+    var ccd_details_obj = JSON.parse(ccd_details);
+
+    function ccd_builder(obj, depth) {
         final_text = "";
         final_text += `
             <div style="padding-left: ${depth * 30}px; margin-bottom: 10px; display: flex;" class="${depth >= 2 ? "ccd-deep" : ""}">
@@ -321,7 +320,7 @@
                 </div>
             </div>
         `;
-        
+
         if (obj.compositions) {
             obj.compositions.forEach(comp => {
                 final_text += ccd_builder(comp, depth + 1);
@@ -337,7 +336,9 @@
 
 <!-- Back side
     {{FrontSide}}
-    {{tts ja_JP voices=Apple_Otoya,Microsoft_Haruka:word}}
+    <div style="display: none;">
+        {{tts ja_JP voices=Apple_Otoya,Microsoft_Haruka:word}}
+    </div>
     <script>
         document.getElementById('flip-style').innerHTML = ".anki-front-only {display:none}";
         document.getElementById("answer_scroll").scrollIntoView({block: "start"});
