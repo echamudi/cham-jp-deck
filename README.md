@@ -30,10 +30,10 @@ This simple code generates CSV table from [JMdict](https://www.edrdg.org/jmdict/
 
 ## FAQ
 
-### Which items are included?
+### Which words and kanji characters are included?
 
-- Words from **JMdict** that contains has frequency tags and contains kanji,
-- Words from **JMdict** that don't have frequency tags but appear in ManyThings examples, Wanikani vocabs, Core 6K, Core 10K, and Tanos JLPT vocabs, 
+- Words from **JMdict** that contains has frequency tags and contains kanji.
+- Words from **JMdict** that don't have frequency tags but appear in ManyThings examples, Wanikani vocabs, Core 6K, Core 10K, Tanos JLPT vocabs, and Netflix Frequency 12K.
 - Kanji letters from **KANJIDIC**, starting from kanken 10 to kanken 1.
 
 ### How the items are sorted?
@@ -106,7 +106,7 @@ Yep.
 
 ### Is there audio in this deck? 
 
-Not at the moment. But I'm planning to use this [WaniKani open souce pronounciation audio](https://github.com/tofugu/japanese-vocabulary-pronunciation-audio).
+Nope. But I'm planning to use this [WaniKani open souce pronounciation audio](https://github.com/tofugu/japanese-vocabulary-pronunciation-audio).
 
 ## Development
 
@@ -122,21 +122,20 @@ node cli-json.js    # run this to generate JSON
 
 ## Acknowledgment
 
-- Chinese characters decomposition https://commons.wikimedia.org/wiki/Commons:Chinese_characters_decomposition
-- Japanese Core 6000 (Core 6K) https://iknow.jp/content/japanese
-- Japanese Sensei (Core 10K) http://en.colezhu.com/jsensei/
-- Jitenon https://kanji.jitenon.jp
+The items are collected from following sources:
+
 - JLPT Study by Peter van der Woude https://jlptstudy.net
 - JMdict https://www.edrdg.org/jmdict/j_jmdict.html
+- Japanese Core 6000 (Core 6K) https://iknow.jp/content/japanese
+- Japanese Sensei (Core 10K) http://en.colezhu.com/jsensei/
 - Jonathan Waller JLPT Lists http://www.tanos.co.uk/jlpt/
 - KANJIDIC Project http://www.edrdg.org/wiki/index.php/KANJIDIC_Project
-- Kanshudo Collections https://www.kanshudo.com/collections
+- KanjiVG by Ulrich Apel https://github.com/KanjiVG/kanjivg
+- Kanjium by Uros Ozvatic https://github.com/mifunetoshiro/kanjium
 - ManyThings Kanji Dictionary http://www.manythings.org/kanji/d/index.html
-- nihongo-pro.com https://nihongo-pro.com/
+- Netflix 12K list https://www.youtube.com/watch?v=DwJWld8hW0M
 - Wanikani https://wanikani.com
 - 日本漢字能力検定級別漢字表 https://www.kanken.or.jp/kanken/outline/degree.html
-- 漢字辞典 https://kanjijoho.com
-- 辞典オンライン https://jitenon.jp
 
 ## Authors
 
