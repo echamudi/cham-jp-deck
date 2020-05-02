@@ -1,14 +1,12 @@
-dist
-dist_jitenon
-
 # Source: http://www.edrdg.org/kanjidic/kanjidic2.xml.gz
-source/kanjidic2.xml
+kanjidic2.xml
 
 # Source: http://ftp.monash.edu/pub/nihongo/JMdict_e.gz
-source/JMdict_e
+JMdict_e
 
-# Source: https://commons.wikimedia.org/wiki/User:Artsakenos/CCD-TSV
-# source/CCD.csv
+# Results
+cham_jp_deck.csv
+cham_jp_deck.json
 
 # Don't mind following ignores
 other_tools/kanji.jitenon.jp
