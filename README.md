@@ -1,7 +1,7 @@
 
 # Cham JP Deck
 
-This simple code takes data from [JMdict](https://www.edrdg.org/jmdict/j_jmdict.html), [KANJIDIC](http://www.edrdg.org/wiki/index.php/KANJIDIC_Project), and [Chinese characters decomposition](https://commons.wikimedia.org/wiki/Commons:Chinese_characters_decomposition), combines them, and generetes a CSV table that can be imported in [Anki](https://apps.ankiweb.net).
+This simple code generates CSV table from [JMdict](https://www.edrdg.org/jmdict/j_jmdict.html), [KANJIDIC](http://www.edrdg.org/wiki/index.php/KANJIDIC_Project), and other sources. The CSV can be imported as a deck in [Anki](https://apps.ankiweb.net).
 
 ## Usage
 
@@ -144,7 +144,7 @@ node cli-json.js    # run this to generate JSON
 
 ## License
 
-Code and documentation copyright 2019 the [Cham JP Deck Project Authors](https://github.com/ezhmd/cham-jp-deck/graphs/contributors). 
+Copyright © 2020 [Ezzat Chamudi](https://github.com/ezhmd)
 
 Cham JP Deck code is licensed under [MPL-2.0](https://www.mozilla.org/en-US/MPL/2.0/). Images, logos, docs, and articles in this Cham JP Deck project are released under [CC-BY-SA-4.0](https://creativecommons.org/licenses/by-sa/4.0/legalcode).
 
