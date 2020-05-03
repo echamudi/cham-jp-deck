@@ -401,8 +401,18 @@ async function chamJpDeckMaker(jmdictPath, kanjidicPath) {
     });
     process.stdout.write("👍 Done adding CCD details\n");
 
-    // Add core6k index
-    // TODO: Add real core6k index, the current sorting in assets is not the original sorting
+    // Add kanjidic freq index
+    process.stdout.write("Adding kanjidic freq index...\n");
+    Object.keys(fin).forEach(function (key) {
+        fin[key].index_kanjidic_freq = "";
+    });
+    raw.kanji_freq.forEach((key, index) => {
+        if (fin[key] !== undefined && fin[key].index_kanjidic_freq === "") {
+            fin[key].index_kanjidic_freq = index + 1;
+        }
+    });
+    process.stdout.write("👍 Done adding kanjidic freq index\n");
+
 
     // Add netflix12k index
     process.stdout.write("Adding Netflix index...\n");
@@ -410,11 +420,23 @@ async function chamJpDeckMaker(jmdictPath, kanjidicPath) {
         fin[key].index_netflix = "";
     });
     raw.vocab_netflix12k.forEach((key, index) => {
-        if (fin[key] !== undefined) {
+        if (fin[key] !== undefined && fin[key].index_netflix === "") {
             fin[key].index_netflix = index + 1;
         }
     });
     process.stdout.write("👍 Done adding Netflix index\n");
+
+    // Add core6k index
+    process.stdout.write("Adding core6k index...\n");
+    Object.keys(fin).forEach(function (key) {
+        fin[key].index_core6k = "";
+    });
+    raw.vocab_core6k.forEach((key, index) => {
+        if (fin[key] !== undefined && fin[key].index_core6k === "") {
+            fin[key].index_core6k = index + 1;
+        }
+    });
+    process.stdout.write("👍 Done adding core6k index\n");
 
     process.stdout.write("Sorting...\n");
 
@@ -527,7 +549,9 @@ async function chamJpDeckMakerCSV() {
         csvstring +=
             /* word */              element.word + "\t" +
             /* index */             (index + 1) + "\t" +
+            /* index_kanjidic_freq */ element.index_kanjidic_freq + "\t" +
             /* index_netflix */     element.index_netflix + "\t" +
+            /* index_core6k */      element.index_core6k + "\t" +
             /* sources */           element.sources.join(" ") + "\t" +
             /* kanjidic_details */  (element.kanjidic_details ? JSON.stringify(element.kanjidic_details).replace(/\t/g, "") : "") + "\t" +
             /* kanjidic_misc */     (element.kanjidic_misc ? element.kanjidic_misc.join(" ") : "") + "\t" +

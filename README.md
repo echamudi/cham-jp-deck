@@ -60,7 +60,9 @@ Taken from https://www.edrdg.org/jmdict/edict_doc.html
 
 - word
 - index
+- index_kanjidic_freq
 - index_netflix
+- index_core6k
 - sources
 - kanjidic_details
 - kanjidic_misc
