@@ -38,7 +38,7 @@ This simple code generates CSV table from [JMdict](https://www.edrdg.org/jmdict/
 
 ### How the items are sorted?
 
-First, all kanji letters are sorted by kanji kentei level. After each kanji, sample vocabs are added based on the learned kanji items.
+First, all kanji letters are sorted by kanji frequency list in KANJIDIC. After each kanji, sample vocabs are added based on kanji that appeared previously.
 
 ### What is JMdict frequency tag
 
