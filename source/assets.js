@@ -1,6 +1,8 @@
 const kanji = require('kanji');
 var raw = {};
 
+raw.kanji_freq = kanji.freq.list;
+
 // KANJI: Kanken
 
 raw.kanji_kanken10 = kanji.kanken.lv10;
