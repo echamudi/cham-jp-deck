@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ezhmd/cham-jp-deck.git"
+    "url": "git+https://github.com/echamudi/cham-jp-deck.git"
   },
   "author": "Ezzat Chamudi",
   "license": "MPL-2.0",
   "bugs": {
-    "url": "https://github.com/ezhmd/cham-jp-deck/issues"
+    "url": "https://github.com/echamudi/cham-jp-deck/issues"
   },
-  "homepage": "https://github.com/ezhmd/cham-jp-deck#readme",
+  "homepage": "https://github.com/echamudi/cham-jp-deck#readme",
   "dependencies": {
     "csvtojson": "^2.0.10",
     "kanji": "0.6.0",

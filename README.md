@@ -114,7 +114,7 @@ Nope. But I'm planning to use this [WaniKani open souce pronounciation audio](ht
 ## Development
 
 ```sh
-git clone https://github.com/ezhmd/cham-jp-deck
+git clone https://github.com/echamudi/cham-jp-deck
 cd cham-jp-deck
 
 # Put JMdict_e and kanjidic2.xml in the current folder
@@ -142,11 +142,11 @@ The items are collected from following sources:
 
 ## Authors
 
-* **Ezzat Chamudi** - [ezhmd](https://github.com/ezhmd)
+* **Ezzat Chamudi** - [echamudi](https://github.com/echamudi)
 
 ## License
 
-Copyright © 2020 [Ezzat Chamudi](https://github.com/ezhmd)
+Copyright © 2020 [Ezzat Chamudi](https://github.com/echamudi)
 
 Cham JP Deck code is licensed under [MPL-2.0](https://www.mozilla.org/en-US/MPL/2.0/). Images, logos, docs, and articles in this Cham JP Deck project are released under [CC-BY-SA-4.0](https://creativecommons.org/licenses/by-sa/4.0/legalcode).
 
