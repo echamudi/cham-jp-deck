@@ -1,6 +1,6 @@
 {
   "name": "cham-jp-deck",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Japanese flashcard generator from JMdict, KANJIDIC, and Chinese characters decomposition to Anki deck in CSV format",
   "main": "code.js",
   "bin": {
