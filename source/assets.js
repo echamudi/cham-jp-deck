@@ -1,3 +1,5 @@
+// @ts-check
+
 const kanji = require('kanji');
 var raw = {};
 

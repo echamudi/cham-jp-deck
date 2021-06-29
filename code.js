@@ -1,3 +1,5 @@
+// @ts-check
+
 // module.paths.push('/usr/local/lib/node_modules');
 
 const fs = require('fs');
@@ -6,23 +8,25 @@ const kanji = require('kanji');
 const csvtojson = require("csvtojson");
 
 async function chamJpDeckMaker(jmdictPath, kanjidicPath) {
-    var raw = require(__dirname + "/source/assets.js");
+    const raw = require(__dirname + "/source/assets.js");
 
     console.log('Loading JMdict');
-    var JMdictJSON = xml2json.toJson(fs.readFileSync('./JMdict_e', 'utf8'), {
+    /** @type {any} */
+    const JMdictJSON = xml2json.toJson(fs.readFileSync('./JMdict_e', 'utf8'), {
         object: true,
     });
-    var JMdict = JMdictJSON.JMdict.entry;
+    const JMdict = JMdictJSON.JMdict.entry;
 
     console.log('Loading KANJIDIC');
-    var KANJIDICJSON = xml2json.toJson(fs.readFileSync('./kanjidic2.xml', 'utf8'), {
+    /** @type {any} */
+    const KANJIDICJSON = xml2json.toJson(fs.readFileSync('./kanjidic2.xml', 'utf8'), {
         object: true,
     });
-    var KANJIDIC = KANJIDICJSON.kanjidic2.character;
+    const KANJIDIC = KANJIDICJSON.kanjidic2.character;
 
     console.log('👍 Done loading files');
 
-    var switcher = {
+    const switcher = {
         test_data: false,
         jmdict_details: true,
         jmdict_non_freq: false,
@@ -32,7 +36,7 @@ async function chamJpDeckMaker(jmdictPath, kanjidicPath) {
 
     // Sort kanji_kanken10 to kanji_kanken2 by freq
 
-    var joyo_kanji_order = {};
+    const joyo_kanji_order = {};
     raw.kanji_joyo.forEach(function (el, i) {
         joyo_kanji_order[el] = i + 1;
     });
@@ -87,7 +91,7 @@ async function chamJpDeckMaker(jmdictPath, kanjidicPath) {
 
     // JMDict build dictionary object
 
-    JMdictObj = {};
+    const JMdictObj = {};
     JMdict.forEach(function (entry) {
         // If the entry has kanji writing
         if (entry.k_ele) entry.k_ele.forEach(k_ele => {
@@ -251,7 +255,7 @@ async function chamJpDeckMaker(jmdictPath, kanjidicPath) {
             delete fin[key];
 
         // remove error items from manythings
-        } else if (key.match(/�/g, "")) {
+        } else if (key.match(/�/g)) {
             delete fin[key];
         }
     });
@@ -298,13 +302,13 @@ async function chamJpDeckMaker(jmdictPath, kanjidicPath) {
         // Search for meaning
 
         process.stdout.write("Matching for JMdict details...\n");
-        keys = Object.keys(fin);
-        index = 1;
+        const keys = Object.keys(fin);
+        let index = 1;
 
         Object.keys(fin).forEach(function (key) {
             process.stdout.write(`(${index++}) Searching for ${key} ...`);
 
-            alternatives = {
+            const alternatives = {
                 nosuru: "",
                 nopredash: "",
                 nopostdash: ""
@@ -330,7 +334,7 @@ async function chamJpDeckMaker(jmdictPath, kanjidicPath) {
                 fin[key].jmdict_details = [];
             };
 
-            process.stdout.clearLine();
+            process.stdout.clearLine(0);
             process.stdout.cursorTo(0);
 
         });
@@ -338,7 +342,7 @@ async function chamJpDeckMaker(jmdictPath, kanjidicPath) {
         // Get freq from JMdict
 
         Object.keys(fin).forEach(function (key) {
-            jmdict_freq = [];
+            let jmdict_freq = [];
 
             fin[key].jmdict_details.forEach(entry => {
                 entry.k_ele.forEach(k_ele => {
