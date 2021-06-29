@@ -46,7 +46,7 @@ async function chamJpDeckMaker(jmdictPath, kanjidicPath) {
         return 1;
     }
 
-    for (var i = 10; i >= 2; i--) {
+    for (let i = 10; i >= 2; i--) {
         raw[`kanji_kanken${i}`].sort(kanji_sorter);
     }
     raw[`kanji_kanken2jyun`].sort(kanji_sorter);
@@ -109,7 +109,7 @@ async function chamJpDeckMaker(jmdictPath, kanjidicPath) {
     // KANJIDIC Restructure
 
     process.stdout.write("Creating KANJIDIC object...\n");
-    var KANJIDICObj = {};
+    const KANJIDICObj = {};
     KANJIDIC.forEach(function (character) {
         KANJIDICObj[character.literal] = character;
         if (character.reading_meaning) {
@@ -125,7 +125,7 @@ async function chamJpDeckMaker(jmdictPath, kanjidicPath) {
 
     process.stdout.write("CCD creating object...\n");
 
-    var CCDObj = {};
+    const CCDObj = {};
     // Initial CCD Obj
     Object.keys(KANJIDICObj).forEach(kanjiChar => {
         if (kanjiChar.length > 1) {
@@ -229,7 +229,7 @@ async function chamJpDeckMaker(jmdictPath, kanjidicPath) {
 
     // Combine everything into one object
 
-    var fin = {};
+    const fin = {};
 
     Object.keys(raw).forEach(function (key) {
         raw[key].forEach(element => {
@@ -471,13 +471,13 @@ async function chamJpDeckMaker(jmdictPath, kanjidicPath) {
 
     // Sort Entries
 
-    var arrFin = [];
+    const arrFin = [];
     Object.keys(fin).forEach(function (key) {
         arrFin.push(fin[key]);
     });
 
     arrFin.sort(function (a, b) {
-        for (var i = 0; i <= 10; i++) {
+        for (let i = 0; i <= 10; i++) {
             if (typeof a.kanji_ids[i] == 'undefined') a.kanji_ids[i] = 0;
             if (typeof b.kanji_ids[i] == 'undefined') b.kanji_ids[i] = 0;
         }
@@ -548,7 +548,7 @@ async function chamJpDeckMakerCSV() {
 
     process.stdout.write("Saving cham_jp_deck.csv...\n");
     // Create CSV
-    var csvstring = "";
+    let csvstring = "";
     arrFin.forEach((element, index) => {
         csvstring +=
             /* word */              element.word + "\t" +
