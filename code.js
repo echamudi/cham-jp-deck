@@ -141,7 +141,7 @@ async function chamJpDeckMaker(jmdictPath, kanjidicPath) {
         }
     });
 
-    // Rename the property names
+    // Rename the property names (element -> kanji, g -> compositions)
     const CCDRenamer = function (comp) {
         comp.kanji = comp.element;
         delete comp.element;
@@ -446,7 +446,7 @@ async function chamJpDeckMaker(jmdictPath, kanjidicPath) {
 
     // Add kanji ID for sorting
 
-    i = 1;
+    let i = 1;
     Object.keys(fin).forEach(function (key) {
         if (key.length == 1) {
             fin[key].kanji_id = i;
