@@ -29,6 +29,7 @@ async function chamJpDeckMaker(jmdictPath, kanjidicPath) {
     const switcher = {
         test_data: false,
         jmdict_details: true,
+        // Include words in JMDict that don't have any freq tag
         jmdict_non_freq: false,
         kanjidic_details: true,
         kanji_only: false,
