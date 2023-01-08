@@ -4377,6 +4377,10 @@ raw.vocab_netflix12k = [
     "彼自身", "憎悪", "教え子", "歴代", "見合い", "視聴率", "農園", "お供", "お隣", "グルグル", "サラリーマン", "ちゃあ", "ビス"
 ]
 
+// Personal Vocabs: My personal vocab collections
+
+raw.vocab_book_k_o_d = [];
+
 // MORE HARD KANJI
 
 // additional ~500 kanjis out of joyo
